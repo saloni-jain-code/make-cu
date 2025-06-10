@@ -8,8 +8,8 @@ const faqs = [
       answer: "Unlike traditional software hackathons, hardware hackathons are events where participants come together to prototype and build projects using real materials. They offer an opportunity to apply electrical, mechanical, and software engineering skills to a real world project. Students will build familiarity with circuit design, soldering, working with sensors/actuators, develop skills using 3D printers, CAD software, and working with physical materials, engineering moving parts. You'll also develop programming skills for coding the logic behind microcontrollers or embedded systems.",
     },
     {
-      question: "When is Hack and Build?",
-      answer: "Hack & Build will take place on November 23-24, 2024 at Columbia University. More detailed schedule to come later.",
+      question: "When is MakeCU?",
+      answer: "MakeCU will take place on November 8-9, 2025 at Columbia University. More detailed schedule to come later.",
     },
     {
       question: "Who can participate?",
