@@ -27,8 +27,8 @@ export default function Countdown() {
   }, []);
 
   return (
-    <section className="text-white px-6 pb-5 text-center">
-      <div className="flex justify-center gap-4 sm:gap-20">
+    <section className="text-white px-4 sm:px-6 pb-6 text-center">
+      <div className="flex flex-wrap justify-center gap-3 sm:gap-6 md:gap-10">
         {[
           { label: 'Days', value: timeLeft.days },
           { label: 'Hours', value: timeLeft.hours },
@@ -37,10 +37,10 @@ export default function Countdown() {
         ].map((unit, idx) => (
           <div
             key={idx}
-            className="w-20 sm:w-24 h-24 sm:h-28 text-white rounded-lg flex flex-col items-center justify-center shadow"
+            className="w-20 sm:w-24 md:w-28 h-24 sm:h-28 md:h-32 rounded-xl flex flex-col items-center justify-center shadow backdrop-blur-sm"
           >
-            <div className="text-5xl sm:text-6xl font-orbitron font-bold glow-text">{unit.value}</div>
-            <div className="text-sm sm:text-base mt-1 uppercase tracking-wide">{unit.label}</div>
+            <div className="text-5xl sm:text-6xl font-sans font-bold glow-text">{unit.value}</div>
+            <div className="text-sm sm:text-base mt-1 font-sans uppercase tracking-wide">{unit.label}</div>
           </div>
         ))}
       </div>
