@@ -23,7 +23,7 @@ const events = [
   
   
     return (
-      <section className="text-white px-6 pb-20 font-inter">
+      <section className="text-white px-6 pb-20" id="schedule">
         <h2 className="font-mono text-3xl sm:text-6xl font-bold text-center mb-10">
           Schedule
         </h2>

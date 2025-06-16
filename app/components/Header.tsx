@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <section className="text-center px-6 pt-40 pb-5 text-white">
+    <section className="text-center px-6 pt-40 pb-5 text-white" id="header">
       <h1 className="font-mono text-7xl sm:text-8xl md:text-9xl lg:text-10xl font-bold mb-4 sm:mb-6 glow-text text-center">
         MakeCU 2025
       </h1>
