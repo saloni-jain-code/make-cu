@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "MakeCU 2025",
   description: "Columbia University Robotics Club's Hardware Hackathon",
   icons: {
-    icon: "/curc-mascot.svg", // or "/favicon.png", etc.
+    icon: "/tools.svg", // or "/curc-mascot.svg", etc.
   },
 };
 
