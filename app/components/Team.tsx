@@ -18,7 +18,7 @@ const teams: TeamData[] = [
           name: "Joseph Lee",
           class: "PhD, GSAS '27",
           major: "Physics",
-          linkedin: "",
+          linkedin: "https://www.linkedin.com/in/jleetj/",
           profilePicture: "/team/joseph.jpeg"
         }
       ]
@@ -43,9 +43,9 @@ const teams: TeamData[] = [
         },
         {
           name: "Isaac Trost",
-          class: "",
-          major: "",
-          linkedin: "",
+          class: "SEAS '26",
+          major: "Computer Science",
+          linkedin: "https://www.linkedin.com/in/william-trost-971159244/",
           profilePicture: "/team/isaac.jpg"
         }
       ]
@@ -70,7 +70,7 @@ const teams: TeamData[] = [
         {
           name: "Mannat Jain",
           class: "SEAS'29",
-          major: "Material Science and Engineering + Computer Science",
+          major: "Material Science + Computer Science",
           linkedin: "https://www.linkedin.com/in/mannatvjain/",
           profilePicture: "/team/mannat.png"
         }
@@ -163,7 +163,7 @@ const TeamBox: React.FC<{ team: TeamData }> = ({ team }) => {
             <h4 className="text-lg font-semibold text-white mb-1">{currentMember.name}</h4>
             <p className="text-yellow-400 font-medium text-sm mb-1">{currentMember.class}</p>
             <p className="text-gray-300 text-sm mb-2">{currentMember.major}</p>
-            <a
+            {currentMember.linkedin != "" && <a
                 href={currentMember.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -171,7 +171,7 @@ const TeamBox: React.FC<{ team: TeamData }> = ({ team }) => {
             >
                 <Linkedin className="w-4 h-4 mr-1" />
                 LinkedIn
-            </a>
+            </a>}
             </div>
         </div>
         
