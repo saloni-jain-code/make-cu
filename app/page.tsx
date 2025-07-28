@@ -5,6 +5,8 @@ import Countdown from "./components/Countdown";
 import About from "./components/About";
 import NavBar from "./components/NavBar";
 import MeetTheTeam from "./components/Team"
+import MakerspaceTraining from "./components/MakerspaceTraining";
+
 export default function Home() {
   return (
     <main>
@@ -13,6 +15,7 @@ export default function Home() {
       <Countdown />
       <About />
       <Schedule />
+      <MakerspaceTraining />
       <MeetTheTeam />
       <FAQ />
     </main>
