@@ -6,6 +6,7 @@ import About from "./components/About";
 import NavBar from "./components/NavBar";
 import MeetTheTeam from "./components/Team"
 import MakerspaceTraining from "./components/MakerspaceTraining";
+import Hardware from "./components/Hardware";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <About />
       <Schedule />
       <MakerspaceTraining />
+      <Hardware />
       <MeetTheTeam />
       <FAQ />
     </main>
