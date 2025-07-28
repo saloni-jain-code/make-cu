@@ -79,7 +79,7 @@ const NavBar: React.FC = () => {
               
               {/* Apply Button */}
               <button 
-                onClick={() => window.open('https://forms.gle/hacXKiCzZeYKCBTL7')}
+                onClick={() => window.open('https://forms.gle/sCMs2GZJ2LzeW3Wu7')}
                 className="bg-[#01206a] hover:bg-[#01206a] text-white px-6 py-2 rounded-full font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-[#01206a]/50 glow-text"
                 style={{
                   textShadow: 'none',
