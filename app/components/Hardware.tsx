@@ -84,37 +84,37 @@ const Hardware: React.FC = () => {
         },
         {
           id: "raspberry-pi",
-          name: "Raspberry Pi 4",
+          name: "Raspberry Pi",
           description: "Single-board computer for advanced projects"
         }
       ]
     },
     {
-      title: "Sensors",
-      icon: Zap,
-      items: [
-        {
-          id: "pir-sensor",
-          name: "PIR Motion Sensor (HC-SR501)",
-          description: "Passive infrared sensor for motion detection",
-        },
-        {
-          id: "lidar-sensor",
-          name: "LiDAR Distance Sensor",
-          description: "Single-point laser distance measurement sensor",
-        },
-        {
-          id: "muscle-sensor",
-          name: "Muscle Sensor (MyoWare)",
-          description: "EMG sensor for detecting muscle activity"
-        },
-        {
-          id: "ultrasonic-sensor",
-          name: "Ultrasonic Distance Sensor",
-          description: "HC-SR04 compatible ultrasonic ranging module"
-        }
-      ]
-    },
+        title: "Sensors",
+        icon: Zap,
+        items: [
+          {
+            id: "audio-kit",
+            name: "Audio Kit",
+            description: "Microphones and speakers for sound projects"
+          },
+          {
+            id: "camera-kit",
+            name: "Camera Kit",
+            description: "Image capture and computer vision components"
+          },
+          {
+            id: "motion-detection",
+            name: "Motion Detection Kit",
+            description: "PIR motion sensors and ultrasonic distance sensors"
+          },
+          {
+            id: "advanced-sensors",
+            name: "Advanced Sensors",
+            description: "LiDAR distance sensors and muscle/EMG sensors"
+          }
+        ]
+      },
     {
       title: "Motors & Actuators",
       icon: Cog,

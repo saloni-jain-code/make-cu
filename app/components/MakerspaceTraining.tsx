@@ -245,7 +245,7 @@ const MakerspaceTraining: React.FC = () => {
             Makerspace Training
           </h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8">
-           Complete these training modules to access the makerspace equipment!
+           Complete these training modules before the hackathon to access the makerspace equipment!
           </p>
           
           {/* General Resources Links */}

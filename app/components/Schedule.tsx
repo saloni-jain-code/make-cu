@@ -1,29 +1,30 @@
 import React from 'react';
-import { Clock, Users, Wrench, Utensils, Trophy, Coffee, Gamepad2, Network } from 'lucide-react';
+import { Clock, Users, Wrench, Utensils, Trophy, Coffee, Gamepad2, UserPlus, Megaphone, Zap, Building2, Cpu, Moon, } from 'lucide-react';
 
 const saturdayEvents: ScheduleEventProps[] = [
   {
-    time: "8:00 - 9:00 AM",
-    title: "Registration & Check-in",
-    icon: Clock,
+    time: "9:00 -  10:00 AM",
+    title: "Check-in & Team Formation",
+    icon: UserPlus,
     isHighlight: true
   },
   {
-    time: "9:00 - 10:00 AM",
-    title: "Team Formation",
-    icon: Users
-  },
-  {
-    time: "10:00 - 11:00 AM",
+    time: "10:00 - 10:30 AM",
     title: "Opening Ceremony",
-    icon: Trophy,
+    icon: Megaphone,
     isHighlight: true
   },
   {
-    time: "11:00 AM - 12:00 PM",
+    time: "10:30 AM - 11:00 AM",
     title: "Makerspace Training",
-    description: "Video tutorials and hands-on tool training in the Makerspace",
+    description: "Hands-on tool training in the Makerspace",
     icon: Wrench
+  },
+  {
+    time: "11:00 AM",
+    title: "Official Hacking Begins + Hardware Pickup",
+    icon: Zap, 
+    isHighlight: true
   },
   {
     time: "12:00 - 1:00 PM",
@@ -32,35 +33,38 @@ const saturdayEvents: ScheduleEventProps[] = [
   },
   {
     time: "1:00 PM",
-    title: "Official Hacking Begins!",
-    icon: Trophy,
-    isHighlight: true
-  },
-  {
-    time: "1:00 PM",
     title: "Company Tabling Opens",
-    icon: Network,
+    icon: Building2,
   },
   {
-    time: "1:00 PM - 6:00 PM",
-    title: "Workshops",
-    description: "• Intro to Robotic Arm (ROBOTIS)\n• Intro to SolidWorks\n• Intro to OpenCV",
+    time: "2:00 - 3:00 PM",
+    title: "Solidworks CAD, 3D Printing, and Lasercutting Workshop",
     icon: Wrench
   },
   {
-    time: "6:00 - 7:00 PM",
+    time: "3:00 - 4:00 PM",
+    title: "Basic Circuitry for Robotics Workshop",
+    icon: Zap 
+  },
+  {
+    time: "4:00 - 5:00 PM",
+    title: "AI and Robotics",
+    icon: Cpu
+  },
+  {
+    time: "6:30 - 8:00 PM",
     title: "Dinner",
     icon: Utensils
   },
   {
-    time: "10:00 - 11:00 PM",
+    time: "9:30 - 11:30 PM",
     title: "Mario Kart Tournament",
-    icon: Gamepad2
+    icon: Gamepad2,
   },
   {
-    time: "11:00 PM - 12:00 AM",
-    title: "Midnight Snack",
-    icon: Utensils
+    time: "12:00 AM",
+    title: "Midnight Snack and Jackbox",
+    icon: Moon
   },
   {
     time: "All Night",
@@ -72,9 +76,14 @@ const saturdayEvents: ScheduleEventProps[] = [
 
 const sundayEvents: ScheduleEventProps[] = [
   {
-    time: "8:00 - 9:00 AM",
-    title: "Coffee & Breakfast",
+    time: "9:00 - 10:00 AM",
+    title: "Morning Check-in & Breakfast",
     icon: Coffee
+  },
+  {
+    time: "9:00 AM - 12:00 PM",
+    title: "Final Work Time",
+    icon: Zap
   },
   {
     time: "12:00 PM",
@@ -88,13 +97,18 @@ const sundayEvents: ScheduleEventProps[] = [
     icon: Utensils
   },
   {
-    time: "1:00 - 2:00 PM",
+    time: "1:00 - 2:30 PM",
     title: "Project Expo",
-    icon: Trophy,
+    icon: Users, 
     isHighlight: true
   },
   {
-    time: "2:00 - 3:00 PM",
+    time: "2:30 - 3:00 PM",
+    title: "Hardware Return",
+    icon: Wrench,
+  },
+  {
+    time: "3:00 - 3:30 PM",
     title: "Closing Ceremony & Awards",
     icon: Trophy,
     isHighlight: true

@@ -25,7 +25,7 @@ const faqs = [
     },
     {
       question: "What kinds of hardware will be provided?",
-      answer: "We will do our best to provide all necessary equipment; however, you are encouraged to bring your own hardware tools, such as microcomputers, sensors, and mechanical tools, to enhance your project! Arduino kits, sensors, and more will be available. More information to come.",
+      answer: "We will do our best to provide all necessary equipment; however, you are encouraged to bring your own hardware tools, such as microcomputers, sensors, and mechanical tools, to enhance your project! Arduino kits, sensors, and more will be available. See the 'Hardware' section of the website.",
     },
     {
       question: "Do I need to bring my own hardware?",
