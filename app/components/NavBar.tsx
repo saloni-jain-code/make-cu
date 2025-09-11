@@ -62,7 +62,7 @@ const NavBar: React.FC = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
-            <div className="flex items-baseline space-x-8">
+          <div className="flex items-baseline space-x-4 sm:space-x-6 lg:space-x-8 flex-nowrap overflow-hidden">
               {navItems.map((item) => (
                 <button
                   key={item.id}
@@ -80,7 +80,7 @@ const NavBar: React.FC = () => {
               {/* Apply Button */}
               <button 
                 onClick={() => window.open('https://forms.gle/sCMs2GZJ2LzeW3Wu7')}
-                className="bg-[#01206a] hover:bg-[#01206a] text-white px-6 py-2 rounded-full font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-[#01206a]/50 glow-text"
+                className="whitespace-nowrap bg-[#01206a] hover:bg-[#01206a] text-white px-6 py-2 rounded-full font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-[#01206a]/50 glow-text"
                 style={{
                   textShadow: 'none',
                   transition: 'all 0.2s ease-in-out'
@@ -123,6 +123,16 @@ const NavBar: React.FC = () => {
               </div>
             </button>
           </div>
+          {/* Ghost div for MLH trust badge */}
+          <div 
+            className="hidden md:block" 
+            style={{
+              display: 'block',
+              minWidth: '60px',
+              maxWidth: '100px',
+              width: '10%',
+            }}
+          />
       </div>
 
       {/* Mobile Navigation Menu */}

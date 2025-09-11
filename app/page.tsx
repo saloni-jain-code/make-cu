@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar";
 import MeetTheTeam from "./components/Team"
 import MakerspaceTraining from "./components/MakerspaceTraining";
 import Hardware from "./components/Hardware";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <Hardware />
       <MeetTheTeam />
       <FAQ />
+      <Footer />
     </main>
   );
 }
