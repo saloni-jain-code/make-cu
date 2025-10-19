@@ -8,23 +8,23 @@ export default function QRLoginPage() {
   const [error, setError] = useState('');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const next = searchParams.get('next') || '/qr/dashboard';
+  const next = searchParams.get('next') || '/hackers/dashboard';
 
   const handleGoogleLogin = () => {
-    window.location.href = `http://localhost:3001/api/qr/auth/google${next ? `?state=${encodeURIComponent(next)}` : ''}`;
+    window.location.href = `http://localhost:3001/api/hackers/auth/google${next ? `?state=${encodeURIComponent(next)}` : ''}`;
   };
 
   const handleGitHubLogin = () => {
-    window.location.href = `http://localhost:3001/api/qr/auth/github${next ? `?state=${encodeURIComponent(next)}` : ''}`;
+    window.location.href = `http://localhost:3001/api/hackers/auth/github${next ? `?state=${encodeURIComponent(next)}` : ''}`;
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#01206a] to-white">
+    <main className="min-h-screen">
       {/* Navigation */}
       <nav className="bg-white/10 backdrop-blur-md border-b border-white/20">
         <div className="container mx-auto px-4 py-4">
-          <Link href="/qr" className="text-white font-bold text-xl glow-text">
-            ← Back to QR Home
+          <Link href="/hackers" className="text-white font-bold text-xl glow-text">
+            ← Back to Hackers Home
           </Link>
         </div>
       </nav>

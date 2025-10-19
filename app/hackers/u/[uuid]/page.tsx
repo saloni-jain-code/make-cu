@@ -24,7 +24,7 @@ export default function QRProfilePage() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/api/qr/u/${uuid}`, {
+        const response = await fetch(`http://localhost:3001/api/hackers/u/${uuid}`, {
           credentials: 'include'
         });
         if (response.ok) {
@@ -48,7 +48,7 @@ export default function QRProfilePage() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      const response = await fetch(`http://localhost:3001/api/qr/save/${uuid}`, {
+      const response = await fetch(`http://localhost:3001/api/hackers/save/${uuid}`, {
         method: 'POST',
         credentials: 'include'
       });
@@ -68,7 +68,7 @@ export default function QRProfilePage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-[#01206a] to-white flex items-center justify-center">
+      <main className="min-h-screen flex items-center justify-center">
         <div className="text-white text-xl">Loading...</div>
       </main>
     );
@@ -76,11 +76,11 @@ export default function QRProfilePage() {
 
   if (!profile) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-[#01206a] to-white">
+      <main className="min-h-screen">
         <nav className="bg-white/10 backdrop-blur-md border-b border-white/20">
           <div className="container mx-auto px-4 py-4">
-            <Link href="/qr" className="text-white font-bold text-xl glow-text">
-              QR Profile
+            <Link href="/hackers" className="text-white font-bold text-xl glow-text">
+              Hacker Profile
             </Link>
           </div>
         </nav>
@@ -89,7 +89,7 @@ export default function QRProfilePage() {
           <h1 className="text-3xl font-bold text-white mb-4 glow-text">Profile Not Found</h1>
           <p className="text-white/80 mb-8">The profile you're looking for doesn't exist.</p>
           <Link 
-            href="/qr"
+            href="/hackers"
             className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all transform hover:-translate-y-0.5 shadow-lg"
           >
             Back to Home
@@ -100,17 +100,17 @@ export default function QRProfilePage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#01206a] to-white">
+    <main className="min-h-screen">
       {/* Navigation */}
       <nav className="bg-white/10 backdrop-blur-md border-b border-white/20">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/qr" className="text-white font-bold text-xl glow-text">
-            QR Profile
+          <Link href="/hackers" className="text-white font-bold text-xl glow-text">
+            Hacker Profile
           </Link>
           <div className="flex gap-4">
             {user && (
               <Link 
-                href="/qr/dashboard"
+                href="/hackers/dashboard"
                 className="text-white hover:text-blue-300 transition-colors"
               >
                 Dashboard
@@ -143,7 +143,7 @@ export default function QRProfilePage() {
                 <div>
                   <label className="block text-white/80 text-sm font-medium mb-2">Resume:</label>
                   <a 
-                    href={`http://localhost:3001/api/qr/resume/${profile.uuid}`} 
+                    href={`http://localhost:3001/api/hackers/resume/${profile.uuid}`} 
                     target="_blank" 
                     rel="noopener"
                     className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-lg font-medium hover:from-green-600 hover:to-green-700 transition-all transform hover:-translate-y-0.5 shadow-lg"
@@ -180,7 +180,7 @@ export default function QRProfilePage() {
                   </button>
                 ) : !user ? (
                   <Link 
-                    href={`/qr/login?next=${encodeURIComponent(`/qr/u/${profile.uuid}`)}`}
+                    href={`/hackers/login?next=${encodeURIComponent(`/hackers/u/${profile.uuid}`)}`}
                     className="inline-block bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all transform hover:-translate-y-0.5 shadow-lg"
                   >
                     Login to save this profile

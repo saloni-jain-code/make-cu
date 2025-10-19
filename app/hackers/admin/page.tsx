@@ -35,7 +35,7 @@ export default function QRAdminPage() {
   useEffect(() => {
     const fetchAdminData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/qr/admin', {
+        const response = await fetch('http://localhost:3001/api/hackers/admin', {
           credentials: 'include'
         });
         if (response.ok) {
@@ -56,35 +56,35 @@ export default function QRAdminPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-[#01206a] to-white flex items-center justify-center">
+      <main className="min-h-screen flex items-center justify-center">
         <div className="text-white text-xl">Loading...</div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#01206a] to-white">
+    <main className="min-h-screen">
       {/* Navigation */}
       <nav className="bg-white/10 backdrop-blur-md border-b border-white/20">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/qr" className="text-white font-bold text-xl glow-text">
-            QR Profile
+          <Link href="/hackers" className="text-white font-bold text-xl glow-text">
+            Hacker Profile
           </Link>
           <div className="flex gap-4">
             <Link 
-              href="/qr/dashboard"
+              href="/hackers/dashboard"
               className="text-white hover:text-blue-300 transition-colors"
             >
               ← Back to User Dashboard
             </Link>
             <Link 
-              href="/qr/admin/users"
+              href="/hackers/admin/users"
               className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-600 hover:to-blue-700 transition-all"
             >
               All Users
             </Link>
             <Link 
-              href="/qr/admin/saves"
+              href="/hackers/admin/saves"
               className="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-lg font-medium hover:from-green-600 hover:to-green-700 transition-all"
             >
               All Saves
@@ -137,7 +137,7 @@ export default function QRAdminPage() {
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-2xl font-semibold text-white">Recent Users</h3>
               <Link 
-                href="/qr/admin/users"
+                href="/hackers/admin/users"
                 className="text-blue-300 hover:text-blue-200 text-sm underline"
               >
                 View All
@@ -183,7 +183,7 @@ export default function QRAdminPage() {
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-2xl font-semibold text-white">Recent Profile Saves</h3>
               <Link 
-                href="/qr/admin/saves"
+                href="/hackers/admin/saves"
                 className="text-blue-300 hover:text-blue-200 text-sm underline"
               >
                 View All

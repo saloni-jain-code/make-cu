@@ -91,7 +91,7 @@ export const configurePassport = () => {
     passport.use(new GoogleStrategy({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/api/qr/auth/google/callback"
+      callbackURL: "/api/hackers/auth/google/callback"
     }, async (accessToken, refreshToken, profile, done) => {
       try {
         const email = profile.emails?.[0]?.value;
@@ -99,8 +99,10 @@ export const configurePassport = () => {
 
         let user = await getUserByEmail(email);
         if (!user) {
-          const uuid = crypto.randomUUID();
-          user = await createUser(email, null, profile.displayName, uuid);
+          user = await createUser({ 
+            email, 
+            name: profile.displayName 
+          });
         }
         return done(null, user);
       } catch (error) {
@@ -113,16 +115,26 @@ export const configurePassport = () => {
     passport.use(new GitHubStrategy({
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: "/api/qr/auth/github/callback"
+      callbackURL: "/api/hackers/auth/github/callback"
     }, async (accessToken, refreshToken, profile, done) => {
       try {
-        const email = profile.emails?.[0]?.value;
-        if (!email) return done(new Error('No email found'));
+        // GitHub might not return email if user has it set to private
+        // Use the actual email if available, otherwise use GitHub's noreply format
+        let email = profile.emails?.[0]?.value;
+        
+        if (!email) {
+          // Fallback to GitHub's noreply email format
+          const githubId = profile.id;
+          const username = profile.username || 'user';
+          email = `${githubId}+${username}@users.noreply.github.com`;
+        }
 
         let user = await getUserByEmail(email);
         if (!user) {
-          const uuid = crypto.randomUUID();
-          user = await createUser(email, null, profile.displayName || profile.username, uuid);
+          user = await createUser({ 
+            email, 
+            name: profile.displayName || profile.username 
+          });
         }
         return done(null, user);
       } catch (error) {

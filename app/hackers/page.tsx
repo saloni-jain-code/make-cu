@@ -10,7 +10,7 @@ export default function QRHomePage() {
     // Check if user is logged in (this would be replaced with actual auth logic)
     const checkAuth = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/qr/auth/check', {
+        const response = await fetch('http://localhost:3001/api/hackers/auth/check', {
           credentials: 'include'
         });
         if (response.ok) {
@@ -25,8 +25,21 @@ export default function QRHomePage() {
     checkAuth();
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      await fetch('http://localhost:3001/api/hackers/logout', {
+        method: 'POST',
+        credentials: 'include'
+      });
+      setUser(null);
+      window.location.href = '/hackers';
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#01206a] to-white">
+    <main className="min-h-screen">
       {/* Navigation */}
       <nav className="bg-white/10 backdrop-blur-md border-b border-white/20">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -36,15 +49,18 @@ export default function QRHomePage() {
           <div className="flex gap-4">
             {user ? (
               <>
-                <Link href="/qr/dashboard" className="text-white hover:text-blue-300 transition-colors">
+                <Link href="/hackers/dashboard" className="text-white hover:text-blue-300 transition-colors">
                   Dashboard
                 </Link>
-                <button className="text-white hover:text-blue-300 transition-colors">
+                <button 
+                  onClick={handleLogout}
+                  className="text-white hover:text-blue-300 transition-colors"
+                >
                   Logout
                 </button>
               </>
             ) : (
-              <Link href="/qr/login" className="text-white hover:text-blue-300 transition-colors">
+              <Link href="/hackers/login" className="text-white hover:text-blue-300 transition-colors">
                 Login
               </Link>
             )}
@@ -64,7 +80,7 @@ export default function QRHomePage() {
         <div className="flex gap-4 justify-center">
           {user ? (
             <Link 
-              href="/qr/dashboard"
+              href="/hackers/dashboard"
               className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all transform hover:-translate-y-1 shadow-lg"
             >
               Go to Dashboard
@@ -72,13 +88,13 @@ export default function QRHomePage() {
           ) : (
             <>
               <Link 
-                href="/qr/register"
+                href="/hackers/register"
                 className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all transform hover:-translate-y-1 shadow-lg mr-4"
               >
                 Get Started
               </Link>
               <Link 
-                href="/qr/login"
+                href="/hackers/login"
                 className="bg-gradient-to-r from-gray-500 to-gray-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-gray-600 hover:to-gray-700 transition-all transform hover:-translate-y-1 shadow-lg"
               >
                 Login

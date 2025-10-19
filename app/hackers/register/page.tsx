@@ -17,7 +17,7 @@ export default function QRRegisterPage() {
     const formData = new FormData(e.currentTarget);
     
     try {
-      const response = await fetch('/api/qr/register', {
+      const response = await fetch('/api/hackers/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ export default function QRRegisterPage() {
       });
 
       if (response.ok) {
-        router.push('/qr/dashboard');
+        router.push('/hackers/dashboard');
       } else {
         const data = await response.json();
         setError(data.error || 'Registration failed');
@@ -43,12 +43,12 @@ export default function QRRegisterPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#01206a] to-white">
+    <main className="min-h-screen">
       {/* Navigation */}
       <nav className="bg-white/10 backdrop-blur-md border-b border-white/20">
         <div className="container mx-auto px-4 py-4">
-          <Link href="/qr" className="text-white font-bold text-xl glow-text">
-            ← Back to QR Home
+          <Link href="/hackers" className="text-white font-bold text-xl glow-text">
+            ← Back to Hackers Home
           </Link>
         </div>
       </nav>
@@ -118,7 +118,7 @@ export default function QRRegisterPage() {
           
           <p className="text-white/80 text-center mt-6">
             Already have an account?{' '}
-            <Link href="/qr/login" className="text-blue-300 hover:text-blue-200 underline">
+            <Link href="/hackers/login" className="text-blue-300 hover:text-blue-200 underline">
               Login
             </Link>
           </p>
