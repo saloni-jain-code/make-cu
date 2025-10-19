@@ -13,7 +13,7 @@ export default function Header() {
         Columbia University Robotics Club's 24-hour hardware hackathon
       </p>
 
-      <Link
+      {/* <Link
         href="https://forms.gle/sCMs2GZJ2LzeW3Wu7"
         className="block w-fit mx-auto bg-white text-[#01206a] font-sans font-bold px-8 sm:px-10 py-3 mb-6 rounded-full text-lg sm:text-xl transition-all duration-300 hover:shadow-[0_0_15px_5px_rgba(255,255,255,0.75)]"
         target="_blank"
@@ -25,7 +25,7 @@ export default function Header() {
             Deadline: Oct 10, 11:59 PM EST
           </span>
         </div>
-      </Link>
+      </Link> */}
 
       <Link
         href="https://discord.gg/HaHG9dr9f6"

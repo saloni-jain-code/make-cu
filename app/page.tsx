@@ -8,6 +8,9 @@ import MeetTheTeam from "./components/Team"
 import MakerspaceTraining from "./components/MakerspaceTraining";
 import Hardware from "./components/Hardware";
 import Footer from "./components/Footer";
+import Sponsors from "./components/Sponsors";
+import Judges from "./components/Judges";
+import Tracks from "./components/Tracks";
 
 export default function Home() {
   return (
@@ -20,6 +23,9 @@ export default function Home() {
       <MakerspaceTraining />
       <Hardware />
       <MeetTheTeam />
+      <Judges />
+      <Tracks />
+      <Sponsors />
       <FAQ />
       <Footer />
     </main>

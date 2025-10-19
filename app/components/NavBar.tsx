@@ -20,7 +20,7 @@ const NavBar: React.FC = () => {
   // Track active section for highlighting
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['about', 'schedule', 'training', 'hardware', 'team', 'faq'];
+      const sections = ['about', 'schedule', 'training', 'hardware', 'team', 'judges', 'tracks', 'sponsors', 'faq'];
       const scrollPosition = window.scrollY + 100; // Offset for navbar height
 
       for (const section of sections) {
@@ -45,6 +45,9 @@ const NavBar: React.FC = () => {
     { id: 'training', label: 'Training'},
     { id: 'hardware', label: 'Hardware'},
     { id: 'team', label: "Team"},
+    { id: 'judges', label: 'Judges' },
+    { id: 'tracks', label: 'Tracks' },
+    { id: 'sponsors', label: 'Sponsors' },
     { id: 'faq', label: 'FAQ' }
   ];
 
@@ -78,7 +81,7 @@ const NavBar: React.FC = () => {
               ))}
               
               {/* Apply Button */}
-              <button 
+              {/* <button 
                 onClick={() => window.open('https://forms.gle/sCMs2GZJ2LzeW3Wu7')}
                 className="whitespace-nowrap bg-[#01206a] hover:bg-[#01206a] text-white px-6 py-2 rounded-full font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-[#01206a]/50 glow-text"
                 style={{
@@ -93,7 +96,7 @@ const NavBar: React.FC = () => {
                 }}
               >
                 Apply Now
-              </button>
+              </button> */}
             </div>
           </div>
 
@@ -157,7 +160,7 @@ const NavBar: React.FC = () => {
           ))}
           
           {/* Mobile Apply Button */}
-          <button 
+          {/* <button 
             onClick={() => window.open('https://forms.gle/sCMs2GZJ2LzeW3Wu7')}
             className="mt-4 bg-[#01206a] hover:bg-[#01206a] text-white px-6 py-3 rounded-full font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-[#01206a]/50 glow-text"
             style={{
@@ -172,7 +175,7 @@ const NavBar: React.FC = () => {
             }}
           >
             Apply Now
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

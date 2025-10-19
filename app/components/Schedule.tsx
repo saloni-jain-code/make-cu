@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Users, Wrench, Utensils, Trophy, Coffee, Gamepad2, UserPlus, Megaphone, Zap, Building2, Cpu, Moon, } from 'lucide-react';
+import { CheckSquare, Clock, Users, Wrench, Utensils, Trophy, Coffee, Gamepad2, UserPlus, Megaphone, Zap, Building2, Cpu, Moon, Code, GitBranch, Sparkles, Rocket, } from 'lucide-react';
 
 const saturdayEvents: ScheduleEventProps[] = [
   {
@@ -32,28 +32,33 @@ const saturdayEvents: ScheduleEventProps[] = [
     icon: Utensils
   },
   {
-    time: "1:00 PM",
+    time: "12:00 PM",
     title: "Company Tabling Opens",
     icon: Building2,
   },
   {
-    time: "2:00 - 3:00 PM",
-    title: "Solidworks CAD, 3D Printing, and Lasercutting Workshop",
-    icon: Wrench
+    time: "1:00 - 2:00 PM",
+    title: "Modular Coding Workshop",
+    icon: Code,
   },
   {
-    time: "3:00 - 4:00 PM",
-    title: "Basic Circuitry for Robotics Workshop",
-    icon: Zap 
+    time: "2:00 - 2:45 PM",
+    title: "MLH Github Workshop",
+    icon: GitBranch,
   },
   {
-    time: "4:00 - 5:00 PM",
-    title: "AI and Robotics",
-    icon: Cpu
+    time: "2:45 - 3:30 PM",
+    title: "MLH Google Gemini Workshop",
+    icon: Sparkles,
+  },
+  {
+    time: "3:30 - 4:30 PM",
+    title: "How To Build A Hardware Startup Workshop",
+    icon: Rocket,
   },
   {
     time: "6:30 - 8:00 PM",
-    title: "Dinner",
+    title: "Dinner & Hardware Jeopardy!",
     icon: Utensils
   },
   {
@@ -97,19 +102,19 @@ const sundayEvents: ScheduleEventProps[] = [
     icon: Utensils
   },
   {
-    time: "1:00 - 2:30 PM",
+    time: "1:00 - 3:00 PM",
     title: "Project Expo",
     icon: Users, 
     isHighlight: true
   },
   {
-    time: "2:30 - 3:00 PM",
+    time: "3:00 - 3:30 PM",
     title: "Hardware Return",
     icon: Wrench,
   },
   {
-    time: "3:00 - 3:30 PM",
-    title: "Closing Ceremony & Awards",
+    time: "4:00 - 4:30 PM",
+    title: "Closing Ceremony & Closing Keynote: RAI",
     icon: Trophy,
     isHighlight: true
   }
@@ -175,7 +180,34 @@ const HackathonSchedule: React.FC = () => {
             Schedule
             </h1>
           </div>
-        
+          <div className="max-w-7xl mx-auto mb-8">
+  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+    <div className="flex items-center space-x-3 mb-4 border-b border-white/20 pb-3">
+      <Wrench className="w-6 h-6 text-green-400" />
+      <h3 className="text-xl font-bold text-white">Before You Arrive...</h3>
+    </div>
+
+    <p className="text-gray-300 mb-4">
+      Make sure you’re ready for the hackathon! Here’s a quick checklist of what to bring:
+    </p>
+
+    <ul className="space-y-3 text-gray-200">
+      <li className="flex items-start space-x-3">
+        <CheckSquare className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+        <span><strong>Sleeping Equipment:</strong> Bring a sleeping bag or blanket if you plan to rest in the designated resting room.</span>
+      </li>
+      <li className="flex items-start space-x-3">
+        <CheckSquare className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+        <span><strong>Hardware:</strong> We’ll provide hardware, but we encourage teams to bring their own microcontrollers and tools just in case.</span>
+      </li>
+      <li className="flex items-start space-x-3">
+        <CheckSquare className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+        <span><strong>Government-Issued ID:</strong> Required to enter Columbia’s campus.</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <DaySchedule day="Saturday" events={saturdayEvents} />
           <DaySchedule day="Sunday" events={sundayEvents} />
@@ -186,44 +218,3 @@ const HackathonSchedule: React.FC = () => {
 };
 
 export default HackathonSchedule;
-// export default function Schedule() {
-    
-// const events = [
-//     // Saturday Schedule
-//     { time: "Saturday 9:00 AM", title: "Team Formation" },
-//     { time: "Saturday 10:00 AM", title: "Opening Ceremony" },
-//     { time: "Saturday 11:00 AM", title: "Makerspace Training & Tour" },
-//     { time: "Saturday 12:00 PM", title: "Lunch" },
-//     { time: "Saturday 1:00 PM", title: "Official Hacking Begins" },
-//     { time: "Saturday 1:00 PM", title: "Company Tabling Opens (All Day)" },
-//     { time: "Saturday Afternoon", title: "Workshops: Robotic Arm, SolidWorks, OpenCV" },
-//     { time: "Saturday 6:00 PM", title: "Dinner" },
-//     { time: "Saturday 10:00 PM", title: "Mario Kart Bonding Session" },
-//     { time: "Saturday 11:00 PM", title: "Midnight Snack" },
-//     { time: "Saturday 12:00 AM", title: "All-Night Hacking (Carleton Open)" },
-    
-//     // Sunday Schedule
-//     { time: "Sunday 8:00 AM", title: "Coffee & Breakfast" },
-//     { time: "Sunday 12:00 PM", title: "Lunch" },
-//     { time: "Sunday 1:00 PM", title: "Project Expo" },
-//     { time: "Sunday 2:00 PM", title: "Closing Ceremony & Awards" }
-//   ];
-  
-  
-//     return (
-//       <section className="text-white px-6 pb-20" id="schedule">
-//         <h2 className="font-mono text-3xl sm:text-6xl font-bold text-center mb-10">
-//           Schedule
-//         </h2>
-//         <ul className="max-w-xl mx-auto space-y-6">
-//           {events.map((event, index) => (
-//             <li key={index} className="flex flex-col sm:flex-row sm:justify-between">
-//               <span className="font-semibold">{event.time}</span>
-//               <span className="text-white">{event.title}</span>
-//             </li>
-//           ))}
-//         </ul>
-//       </section>
-//     );
-//   }
-  
