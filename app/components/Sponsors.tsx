@@ -9,10 +9,8 @@ export default function Sponsors() {
     { name: "Ban Ban Shop", logo: "/sponsors/banban.png" },
     { name: "Dredd Industries", logo: "/sponsors/dredd_white.png" },
     { name: "RAI", logo: "/sponsors/rai.png" },
+    { name: "Robotis", logo: "/sponsors/robotis.png" },
   ];
-
-  const firstRow = sponsors.slice(0, 4);
-  const secondRow = sponsors.slice(4);
 
   return (
     <section id="sponsors" className="text-white py-24 px-6 text-center">
@@ -21,23 +19,8 @@ export default function Sponsors() {
       </h2>
 
       <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 sm:p-8 md:p-12 max-w-7xl mx-auto">
-        {/* First row */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-12 justify-items-center mb-12">
-          {firstRow.map((sponsor) => (
-            <Image
-              key={sponsor.name}
-              src={sponsor.logo}
-              alt={sponsor.name}
-              width={280}
-              height={140}
-              className="object-contain max-h-28 sm:max-h-32 opacity-90 hover:opacity-100 transition-transform duration-300 hover:scale-105"
-            />
-          ))}
-        </div>
-
-        {/* Second row (3 centered) */}
-        <div className="grid grid-cols-3 gap-12 justify-center justify-items-center mx-auto w-fit">
-          {secondRow.map((sponsor) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-12 justify-items-center">
+          {sponsors.map((sponsor) => (
             <Image
               key={sponsor.name}
               src={sponsor.logo}

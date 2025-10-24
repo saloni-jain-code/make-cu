@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import './globals.css'
 import { Inter, Orbitron } from 'next/font/google'
 import ParallaxStars from './components/ParallaxStars'
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata: Metadata = {
   title: "MakeCU 2025",
@@ -46,7 +47,7 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
           style={{ width: '100%' }}
         ></img>
       </a>
-
+      <Analytics />
       <ParallaxStars />
         {children}
         </body>
