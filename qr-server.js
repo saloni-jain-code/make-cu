@@ -12,6 +12,29 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
 const cors = require('cors');
 
+// const {
+//   getUserByEmail,
+//   getUserById,
+//   getUserByUuid,
+//   createUser,
+//   updateUserProfile,
+//   addSave,
+//   getSavesForViewer,
+//   getAllUsers,
+//   getAllSaves,
+//   getUserStats,
+//   createTeam,
+//   getTeamByName,
+//   verifyTeamPassword,
+//   addTeamMember,
+//   removeTeamMember,
+//   getUserTeam,
+//   getTeamMembers,
+//   getTeamBudget,
+//   getHardwareItems,
+//   purchaseHardware,
+//   getTeamPurchases,
+// } = require('./data-sqlite');
 const {
   getUserByEmail,
   getUserById,
@@ -23,18 +46,8 @@ const {
   getAllUsers,
   getAllSaves,
   getUserStats,
-  createTeam,
-  getTeamByName,
-  verifyTeamPassword,
-  addTeamMember,
-  removeTeamMember,
-  getUserTeam,
-  getTeamMembers,
-  getTeamBudget,
-  getHardwareItems,
-  purchaseHardware,
-  getTeamPurchases,
-} = require('./data-sqlite');
+} = require('./data-supabase');
+
 
 const app = express();
 
@@ -43,10 +56,6 @@ app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   credentials: true
 }));
-
-// Ensure required directories exist
-const UPLOAD_DIR = path.join(__dirname, 'public/uploads');
-if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 
 // Session configuration
 app.use(session({
@@ -64,30 +73,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, UPLOAD_DIR);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  }
-});
-
-const upload = multer({ 
-  storage,
-  fileFilter: (req, file, cb) => {
-    const allowedTypes = ['.pdf', '.doc', '.docx'];
-    const ext = path.extname(file.originalname).toLowerCase();
-    if (allowedTypes.includes(ext)) {
-      cb(null, true);
-    } else {
-      cb(new Error('Invalid file type. Only PDF, DOC, and DOCX files are allowed.'));
-    }
-  },
-  limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
-});
+const upload = multer({ storage: multer.memoryStorage() });
 
 // Passport strategies
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
@@ -240,9 +226,37 @@ app.post('/api/hackers/profile', requireAuth, upload.single('resume'), async (re
   try {
     const user = req.user;
     const { name } = req.body;
-    const resumePath = req.file ? `/uploads/${req.file.filename}` : undefined;
-    
-    await updateUserProfile(user.id, name, resumePath);
+
+    let resumeUrl;
+
+    if (req.file) {
+      const supabase = require('@supabase/supabase-js').createClient(
+        process.env.SUPABASE_URL,
+        process.env.SUPABASE_SERVICE_ROLE_KEY
+      );
+
+      const fileExt = path.extname(req.file.originalname);
+      const fileName = `${user.uuid}${fileExt}`;
+      const filePath = `resumes/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('resumes')
+        .upload(filePath, req.file.buffer, {
+          contentType: req.file.mimetype,
+          upsert: true
+        });
+
+      if (uploadError) throw uploadError;
+
+      // Get the public URL for the resume
+      const { data: { publicUrl } } = supabase.storage
+        .from('resumes')
+        .getPublicUrl(filePath);
+
+      resumeUrl = publicUrl;
+    }
+
+    await updateUserProfile(user.id, name, resumeUrl);
     res.json({ success: true });
   } catch (error) {
     console.error('Profile update error:', error);
@@ -312,18 +326,15 @@ app.post('/api/hackers/save/:uuid', requireAuth, async (req, res) => {
 app.get('/api/hackers/resume/:uuid', async (req, res) => {
   try {
     const { uuid } = req.params;
+
     const profile = await getUserByUuid(uuid);
-    
     if (!profile || !profile.resume_path) {
       return res.status(404).json({ error: 'Resume not found' });
     }
-    
-    const filePath = path.join(__dirname, 'public', profile.resume_path);
-    if (!fs.existsSync(filePath)) {
-      return res.status(404).json({ error: 'File not found' });
-    }
-    
-    res.sendFile(filePath);
+
+    // redirect to the public Supabase URL
+    res.redirect(profile.resume_path);
+
   } catch (error) {
     console.error('Resume serve error:', error);
     res.status(500).json({ error: 'Failed to serve resume' });
@@ -492,9 +503,6 @@ app.post('/api/hackers/shop/purchase', requireAuth, async (req, res) => {
     res.status(500).json({ error: error.message || 'Failed to purchase item' });
   }
 });
-
-// Serve uploaded files
-app.use('/uploads', express.static(UPLOAD_DIR));
 
 const PORT = process.env.QR_SERVER_PORT || 3001;
 app.listen(PORT, () => {
