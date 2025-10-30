@@ -20,7 +20,7 @@ const NavBar: React.FC = () => {
   // Track active section for highlighting
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['about', 'schedule', 'training', 'hardware', 'team', 'judges', 'tracks', 'sponsors', 'faq'];
+      const sections = ['about', 'schedule', 'training', 'hardware', 'judges', 'tracks', 'sponsors', 'faq', 'team'];
       const scrollPosition = window.scrollY + 100; // Offset for navbar height
 
       for (const section of sections) {
@@ -44,11 +44,11 @@ const NavBar: React.FC = () => {
     { id: 'schedule', label: 'Schedule' },
     { id: 'training', label: 'Training'},
     { id: 'hardware', label: 'Hardware'},
-    { id: 'team', label: "Team"},
     { id: 'judges', label: 'Judges' },
     { id: 'tracks', label: 'Tracks' },
     { id: 'sponsors', label: 'Sponsors' },
-    { id: 'faq', label: 'FAQ' }
+    { id: 'faq', label: 'FAQ' },
+    { id: 'team', label: "Contact Us"}
   ];
 
   return (
