@@ -22,11 +22,11 @@ export default function Home() {
       <Schedule />
       <MakerspaceTraining />
       <Hardware />
-      <MeetTheTeam />
       <Judges />
       <Tracks />
       <Sponsors />
       <FAQ />
+      <MeetTheTeam />
       <Footer />
     </main>
   );
