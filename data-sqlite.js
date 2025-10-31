@@ -139,17 +139,17 @@ async function getUserByUuid(uuid) {
   });
 }
 
-async function createUser({ email, name }) {
+async function createUser({ email, name, role }) {
   const uuid = generateUUID();
   const created_at = new Date().toISOString();
   
   return new Promise((resolve, reject) => {
     db.run(
-      'INSERT INTO users (email, name, uuid, resume_path, created_at) VALUES (?, ?, ?, ?, ?)',
-      [email, name || null, uuid, null, created_at],
+      'INSERT INTO users (email, name, role, uuid, resume_path, created_at) VALUES (?, ?, ?, ?, ?, ?)',
+      [email, name || null, role || null, uuid, null, created_at],
       function(err) {
         if (err) reject(err);
-        else resolve({ id: this.lastID, email, name: name || '', uuid, resume_path: null, created_at });
+        else resolve({ id: this.lastID, email, name: name || '', role: role || null, uuid, resume_path: null, created_at });
       }
     );
   });
@@ -177,6 +177,19 @@ async function updateUserProfile(id, { name, resume_path }) {
       `UPDATE users SET ${updates.join(', ')} WHERE id = ?`,
       values,
       (err) => {
+        if (err) reject(err);
+        else resolve();
+      }
+    );
+  });
+}
+
+async function updateUserRole(userId, role) {
+  return new Promise((resolve, reject) => {
+    db.run(
+      'UPDATE users SET role = ? WHERE id = ?',
+      [role, userId],
+      function(err) {
         if (err) reject(err);
         else resolve();
       }
@@ -464,6 +477,7 @@ module.exports = {
   getUserByUuid,
   createUser,
   updateUserProfile,
+  updateUserRole,
   addSave,
   getSavesForViewer,
   getAllUsers,

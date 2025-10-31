@@ -78,6 +78,11 @@ export default function QRDashboardPage() {
           setQrDataUrl(data.qrDataUrl);
           setProfileUrl(data.profileUrl);
           setIsAdmin(data.isAdmin);
+          
+          // Redirect to role selection if no role is set
+          if (!data.user.role) {
+            window.location.href = '/hackers/select-role';
+          }
         }
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
@@ -91,6 +96,9 @@ export default function QRDashboardPage() {
 
   useEffect(() => {
     const fetchTeamData = async () => {
+      // Only fetch team data for hackers
+      if (user?.role !== 'hacker') return;
+      
       try {
         const response = await fetch('/api/hackers/teams/current', {
           credentials: 'include'
@@ -109,7 +117,7 @@ export default function QRDashboardPage() {
     };
 
     fetchTeamData();
-  }, []);
+  }, [user]);
 
   const handleProfileUpdate = async (formData: FormData) => {
     try {
@@ -195,6 +203,23 @@ export default function QRDashboardPage() {
             Hacker Profile
           </Link>
           <div className="flex gap-4 items-center">
+            {user?.role && (
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                user.role === 'hacker' 
+                  ? 'bg-blue-500/20 text-blue-300 border border-blue-400' 
+                  : 'bg-purple-500/20 text-purple-300 border border-purple-400'
+              }`}>
+                {user.role === 'hacker' ? '🛠️ Hacker' : '🤝 Sponsor'}
+              </span>
+            )}
+            {user?.role === 'hacker' && team && (
+              <Link 
+                href="/hackers/shop"
+                className="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-lg font-medium hover:from-green-600 hover:to-green-700 transition-all transform hover:-translate-y-0.5 shadow-lg"
+              >
+                🛒 Shop
+              </Link>
+            )}
             {isAdmin && (
               <Link 
                 href="/hackers/admin"
@@ -216,7 +241,16 @@ export default function QRDashboardPage() {
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-white glow-text">Your Dashboard</h1>
+          <div>
+            <h1 className="text-4xl font-bold text-white glow-text">Your Dashboard</h1>
+            {user?.role && (
+              <p className="text-white/60 mt-2">
+                {user.role === 'hacker' 
+                  ? 'Manage your profile, team, and hardware purchases' 
+                  : 'Manage your sponsor profile and connect with hackers'}
+              </p>
+            )}
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
@@ -291,7 +325,8 @@ export default function QRDashboardPage() {
           </div>
         </div>
 
-        {/* Team Management Section */}
+        {/* Team Management Section - Only for Hackers */}
+        {user?.role === 'hacker' && (
         <div className="mt-8">
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-6">
             <h3 className="text-2xl font-semibold text-white mb-4">Team Management</h3>
@@ -435,6 +470,7 @@ export default function QRDashboardPage() {
             )}
           </div>
         </div>
+        )}
 
         {/* Saved Profiles Section */}
         <div className="mt-8">

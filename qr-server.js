@@ -18,6 +18,7 @@ const {
   getUserByUuid,
   createUser,
   updateUserProfile,
+  updateUserRole,
   addSave,
   getSavesForViewer,
   getAllUsers,
@@ -159,25 +160,39 @@ app.get('/api/hackers/auth/check', (req, res) => {
   }
 });
 
-app.get('/api/hackers/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+// Only register Google OAuth routes if credentials are configured
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  app.get('/api/hackers/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-app.get('/api/hackers/auth/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/hackers/login' }),
-  (req, res) => {
-    const next = req.query.state || '/hackers/dashboard';
-    res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}${next}`);
-  }
-);
+  app.get('/api/hackers/auth/google/callback', 
+    passport.authenticate('google', { failureRedirect: '/hackers/login' }),
+    (req, res) => {
+      const next = req.query.state || '/hackers/dashboard';
+      res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}${next}`);
+    }
+  );
+} else {
+  app.get('/api/hackers/auth/google', (req, res) => {
+    res.status(503).json({ error: 'Google OAuth is not configured on this server' });
+  });
+}
 
-app.get('/api/hackers/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
+// Only register GitHub OAuth routes if credentials are configured
+if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
+  app.get('/api/hackers/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
 
-app.get('/api/hackers/auth/github/callback',
-  passport.authenticate('github', { failureRedirect: '/hackers/login' }),
-  (req, res) => {
-    const next = req.query.state || '/hackers/dashboard';
-    res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}${next}`);
-  }
-);
+  app.get('/api/hackers/auth/github/callback',
+    passport.authenticate('github', { failureRedirect: '/hackers/login' }),
+    (req, res) => {
+      const next = req.query.state || '/hackers/dashboard';
+      res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}${next}`);
+    }
+  );
+} else {
+  app.get('/api/hackers/auth/github', (req, res) => {
+    res.status(503).json({ error: 'GitHub OAuth is not configured on this server' });
+  });
+}
 
 app.post('/api/hackers/logout', (req, res) => {
   req.logout((err) => {
@@ -186,6 +201,23 @@ app.post('/api/hackers/logout', (req, res) => {
     }
     res.json({ success: true });
   });
+});
+
+app.post('/api/hackers/role', requireAuth, async (req, res) => {
+  try {
+    const { role } = req.body;
+    const user = req.user;
+    
+    if (!role || (role !== 'hacker' && role !== 'sponsor')) {
+      return res.status(400).json({ error: 'Invalid role. Must be "hacker" or "sponsor"' });
+    }
+    
+    await updateUserRole(user.id, role);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Set role error:', error);
+    res.status(500).json({ error: 'Failed to set role' });
+  }
 });
 
 app.get('/api/hackers/dashboard', requireAuth, async (req, res) => {
@@ -303,7 +335,12 @@ app.post('/api/hackers/save/:uuid', requireAuth, async (req, res) => {
       return res.status(404).json({ error: 'Profile not found' });
     }
     
-    await addSave(user.id, profile.id);
+    await addSave({
+      viewer_user_id: user.id,
+      viewed_user_id: profile.id,
+      saved_name: profile.name,
+      saved_resume_path: profile.resume_path
+    });
     res.json({ success: true });
   } catch (error) {
     console.error('Save profile error:', error);
@@ -335,6 +372,11 @@ app.post('/api/hackers/teams/create', requireAuth, async (req, res) => {
     const { name, password } = req.body;
     const user = req.user;
     
+    // Only hackers can create teams
+    if (user.role !== 'hacker') {
+      return res.status(403).json({ error: 'Only hackers can create teams' });
+    }
+    
     if (!name || !password) {
       return res.status(400).json({ error: 'Team name and password are required' });
     }
@@ -365,6 +407,11 @@ app.post('/api/hackers/teams/join', requireAuth, async (req, res) => {
   try {
     const { name, password } = req.body;
     const user = req.user;
+    
+    // Only hackers can join teams
+    if (user.role !== 'hacker') {
+      return res.status(403).json({ error: 'Only hackers can join teams' });
+    }
     
     if (!name || !password) {
       return res.status(400).json({ error: 'Team name and password are required' });
@@ -438,6 +485,11 @@ app.get('/api/hackers/shop', requireAuth, async (req, res) => {
   try {
     const user = req.user;
     
+    // Only hackers can access the shop
+    if (user.role !== 'hacker') {
+      return res.status(403).json({ error: 'Only hackers can access the hardware shop' });
+    }
+    
     // Check if user is in a team
     const team = await getUserTeam(user.id);
     if (!team) {
@@ -458,6 +510,11 @@ app.post('/api/hackers/shop/purchase', requireAuth, async (req, res) => {
   try {
     const user = req.user;
     const { itemId, quantity } = req.body;
+    
+    // Only hackers can purchase
+    if (user.role !== 'hacker') {
+      return res.status(403).json({ error: 'Only hackers can purchase hardware' });
+    }
     
     if (!itemId || !quantity || quantity < 1) {
       return res.status(400).json({ error: 'Invalid item or quantity' });
