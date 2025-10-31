@@ -41,11 +41,12 @@ export default function Sponsors() {
   ];
 
   const tierOrder: SponsorTier[] = ["Platinum", "Gold", "Silver", "Bronze"];
-  const tierColors: Record<SponsorTier, string> = {
-    Platinum: "text-cyan-300",
-    Gold: "text-yellow-400",
-    Silver: "text-gray-300",
-    Bronze: "text-amber-600",
+
+  const tierGradients: Record<SponsorTier, string> = {
+    Platinum: "bg-gradient-to-r from-[#E6EBF2] via-[#C5CBD8] to-[#AEB5C2]",
+    Gold: "bg-gradient-to-r from-[#FFD700] via-[#D4AF37] to-[#B8860B]",
+    Silver: "bg-gradient-to-r from-[#C2C2C2] via-[#B0B0B0] to-[#9A9A9A]",
+    Bronze: "bg-gradient-to-r from-[#D48C3D] via-[#A97142] to-[#8A5030]",
   };
 
   const sponsorsByTier = tierOrder.reduce((acc, tier) => {
@@ -178,7 +179,7 @@ export default function Sponsors() {
 
           return (
             <div key={tier} className="space-y-8 flex flex-col items-center">
-              <h3 className={`font-mono text-4xl sm:text-5xl md:text-6xl font-bold ${tierColors[tier]} text-center`}>
+              <h3 className={`font-mono text-4xl sm:text-5xl md:text-6xl ${tierGradients[tier]} bg-clip-text text-transparent font-semibold text-center`}>
                 {tier}
               </h3>
               
