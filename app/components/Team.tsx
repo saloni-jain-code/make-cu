@@ -73,6 +73,13 @@ const teams: TeamData[] = [
           major: "Strategic Comunications",
           linkedin: "https://www.linkedin.com/in/mayah-park",
           profilePicture: "/team/mayah.png"
+        },
+        {
+          name: "Jia Liu",
+          class: "GS '26",
+          major: "Computer Science",
+          linkedin: "",
+          profilePicture: "/team/jia.jpg"
         }
       ]
     },
@@ -97,15 +104,15 @@ const teams: TeamData[] = [
       ]
     },
     {
-      title: "Business",
+      title: "Sponsorship",
       icon: Briefcase,
       members: [
         {
-          name: "Jia Liu",
-          class: "GS '26",
+          name: "Matthew Spana",
+          class: "MS CS '26",
           major: "Computer Science",
-          linkedin: "",
-          profilePicture: "/team/jia.jpg"
+          linkedin: "https://www.linkedin.com/in/matthew-spana/",
+          profilePicture: "/team/matthew.jpg"
         }
       ]
     }
