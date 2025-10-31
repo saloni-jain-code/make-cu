@@ -7,7 +7,7 @@ export default function Tracks() {
   return (
     <section className="px-6 py-24" id="tracks">
       <div className="max-w-5xl mx-auto text-center mb-12">
-        <h2 className="font-mono text-4xl sm:text-5xl font-bold text-white mb-6">
+        <h2 className="font-mono text-3xl sm:text-5xl md:text-6xl font-bold mb-10 sm:mb-12 text-white text-center">
           Tracks & Prizes
         </h2>
       </div>

@@ -20,6 +20,12 @@ export default function Judges() {
       bio: "Josh Elijah is the Founder of BotBlox, a multi-million dollar hardware company that manufactures ultra compact networking and compute modules for drones and robots. Josh has deep expertise in electronics, robotics, manufacture and computer architecture.",
       image: "/judges/josh_elijah.png",
     },
+    {
+      name: "Ali Al-Bustami",
+      title: "Machine Learning Engineer at Beyond Limits",
+      bio: "Ali Al-Bustami received his Bachelor Degree in Mechatronics Engineering and is currently a Robotics Engineering Master’s Student and Robotics Researcher at the University of Michigan. He has 4+ years of experience as a Machine Learning Engineer specialized in Computer Vision, and served as a Robotics Judge in FIRST Robotics.",
+      image: "/judges/ali-albustami.jpg",
+    },
   ];
 
   return (
@@ -28,11 +34,11 @@ export default function Judges() {
         Judges
       </h2>
 
-      <div className="flex flex-col md:flex-row justify-center items-stretch gap-4 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
         {judges.map((judge) => (
           <div
             key={judge.name}
-            className="flex flex-col items-center bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-8 sm:p-10 text-center shadow-lg transition-transform duration-300 hover:scale-105 hover:bg-white/20 flex-1 max-w-sm mx-auto"
+            className="flex flex-col items-center bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-8 sm:p-10 text-center shadow-lg transition-transform duration-300 hover:scale-105 hover:bg-white/20"
           >
             <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden mb-6 shadow-md">
               <Image
