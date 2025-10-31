@@ -3,6 +3,8 @@ import './globals.css'
 import { Inter, Orbitron } from 'next/font/google'
 import ParallaxStars from './components/ParallaxStars'
 import { Analytics } from "@vercel/analytics/next"
+import NavBar from "./components/NavBar"
+import Footer from "./components/Footer"
 
 export const metadata: Metadata = {
   title: "MakeCU 2025",
@@ -24,20 +26,10 @@ const orbitron = Orbitron({
 
 export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
   return (
-    <html lang="en" className={`${orbitron.variable} ${inter.variable} bg-gradient-to-b from-[#01206a] to-white min-h-screen`}>
+    <html lang="en" className={`${orbitron.variable} ${inter.variable} min-h-screen`}>
       <body className={inter.className}>
       <a 
         id="mlh-trust-badge" 
-        // style={{
-        //   display: 'block',
-        //   maxWidth: '100px',
-        //   minWidth: '60px',
-        //   position: 'fixed',
-        //   right: '50px',
-        //   top: 0,
-        //   width: '10%',
-        //   zIndex: 10000,
-        // }}
         className="fixed top-0 right-[20px] z-[10000] w-[60px] md:w-[100px]"
         href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2026-season&utm_content=white"
         target="_blank">
@@ -49,7 +41,9 @@ export default function RootLayout({children,}: Readonly<{children: React.ReactN
       </a>
       <Analytics />
       <ParallaxStars />
-        {children}
+        <NavBar />
+          {children}
+        <Footer />
         </body>
     </html>
   )
