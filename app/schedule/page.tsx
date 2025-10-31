@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckSquare, Clock, Users, Wrench, Utensils, Trophy, Coffee, Gamepad2, UserPlus, Megaphone, Zap, Building2, Cpu, Moon, Code, GitBranch, Sparkles, Rocket, Pickaxe, Github, } from 'lucide-react';
+import { CheckSquare, Clock, Users, Wrench, Utensils, Trophy, Coffee, Gamepad2, UserPlus, Megaphone, Zap, Building2, Cpu, Moon, Code, GitBranch, Sparkles, Rocket, Pickaxe, Github, Bot, } from 'lucide-react';
 
 const saturdayEvents: ScheduleEventProps[] = [
   {
@@ -44,27 +44,28 @@ const saturdayEvents: ScheduleEventProps[] = [
   },
   {
     time: "1:00 - 2:00 PM",
-    title: "Modular Coding Workshop",
+    title: "Workshop: Walk, Talk & Hack: Building Motion + Interaction on the HighTorque Humanoid",
     location: "Mudd 833",
-    icon: Code,
+    description: "In this session, participants will get up and running with the HighTorque humanoid robot platform. We’ll cover the basics of motion control (walking, turning, balancing), sensor feedback (IMU, joint encoders), and interaction (gestures, responding to input).",
+    icon: Bot,
   },
   {
     time: "2:00 - 2:45 PM",
-    title: "MLH Hacking with GitHub Copilot Workshop",
+    title: "MLH Workshop: Hacking with GitHub Copilot",
     location: "Mudd 833",
     description: "Elevate your hackathon game in just under an hour! Join this workshop on Making Better Hacks, Faster with GitHub Copilot, and discover how this AI companion transforms the coding experience for beginners and seasoned developers. Copilot isn't just another tool you can use to speed up your development; it's like having another hacker on your team!",
     icon: Github,
   },
   {
     time: "2:45 - 3:30 PM",
-    title: "MLH Intro to Google AI Studio Workshop",
+    title: "MLH Workshop: Intro to Google AI Studio",
     location: "Mudd 833",
     description: "Google AI Studio is the fastest way to start building with the Gemini family of multimodal generative AI models. Google AI Studio allows you to try out Gemini's massive token context window, grab an API key in seconds, and experiment out prebuilt prompts. What will you build with Google AI Studio today? Participants will be entered into a raffle for some exclusive swag!",
     icon: Sparkles,
   },
   {
     time: "3:30 - 4:30 PM",
-    title: "How To Build A Hardware Startup Workshop",
+    title: "Workshop: How To Build A Hardware Startup",
     location: "Mudd 833",
     description:"Curious to know what it takes to create a startup? Come hear Josh from BotBlox talk about how he built his startup from the ground up.",
     icon: Rocket,
@@ -181,8 +182,8 @@ const ScheduleEvent: React.FC<ScheduleEventProps> = ({
         <Icon className="w-5 h-5 text-yellow-400" />
       </div>
       <div className="flex-grow">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-          <h3 className="font-semibold text-white text-lg">{title}</h3>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
+          <h3 className="font-semibold text-white sm:max-w-[80%] text-lg">{title}</h3>
           <span className="text-yellow-400 font-medium text-sm mt-1 sm:mt-0">
             {time}
           </span>
