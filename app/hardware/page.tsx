@@ -144,7 +144,7 @@ const Hardware: React.FC = () => {
     <section className="px-6 py-20" id="hardware">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="font-mono text-3xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-8 text-white text-center">
+          <h1 className="font-mono text-3xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-8 text-white text-center py-4">
             Hardware
           </h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8">
