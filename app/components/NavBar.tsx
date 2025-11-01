@@ -28,7 +28,10 @@ const NavBar: React.FC = () => {
       if (pathname === "/") {
         scrollToSection(sectionId);
       } else {
-        router.push(`/#${sectionId}`); // go back home and jump to section
+        router.push(`/`); // go back home first
+        setTimeout(() => {
+          scrollToSection(sectionId);
+        }, 100); // slight delay to ensure home page loads
       }
     }
     setActiveSection(sectionId);

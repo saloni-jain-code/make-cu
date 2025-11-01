@@ -112,7 +112,7 @@ const teams: TeamData[] = [
           class: "MS CS '26",
           major: "Computer Science",
           linkedin: "https://www.linkedin.com/in/matthew-spana/",
-          profilePicture: "/team/matthew.jpg"
+          profilePicture: "/team/matt.jpeg"
         }
       ]
     }
