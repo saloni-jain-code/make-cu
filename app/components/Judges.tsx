@@ -22,7 +22,7 @@ export default function Judges() {
     },
     {
       name: "Ali Al-Bustami",
-      title: "Machine Learning Engineer at Beyond Limits",
+      title: "Researcher at the University of Michigan",
       bio: "Ali Al-Bustami received his Bachelor Degree in Mechatronics Engineering and is currently a Robotics Engineering Master’s Student and Robotics Researcher at the University of Michigan. He has 4+ years of experience as a Machine Learning Engineer specialized in Computer Vision, and served as a Robotics Judge in FIRST Robotics.",
       image: "/judges/ali-albustami.jpg",
     },
