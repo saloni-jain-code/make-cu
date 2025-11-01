@@ -17,7 +17,7 @@ const saturdayEvents: ScheduleEventProps[] = [
     isHighlight: true
   },
   {
-    time: "10:30 AM - 11:00 AM",
+    time: "10:30 - 11:00 AM",
     title: "Makerspace Training",
     location: "Makerspace",
     description: "Hands-on tool training in the Makerspace",
