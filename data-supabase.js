@@ -182,6 +182,7 @@ async function getUserTeam(user_id) {
     .eq('user_id', user_id)
     .single();
   if (error && error.code !== 'PGRST116') throw error;
+  if (!data) return null;
   const { team_id, teams, joined_at } = data;
   return {
     team_id,
