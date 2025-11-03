@@ -35,7 +35,7 @@ export default function QRAdminPage() {
   useEffect(() => {
     const fetchAdminData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/hackers/admin', {
+        const response = await fetch('/api/hackers/admin', {
           credentials: 'include'
         });
         if (response.ok) {

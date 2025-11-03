@@ -24,7 +24,7 @@ export default function QRProfilePage() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/api/hackers/u/${uuid}`, {
+        const response = await fetch(`/api/hackers/u/${uuid}`, {
           credentials: 'include'
         });
         if (response.ok) {
@@ -48,7 +48,7 @@ export default function QRProfilePage() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      const response = await fetch(`http://localhost:3001/api/hackers/save/${uuid}`, {
+      const response = await fetch(`/api/hackers/save/${uuid}`, {
         method: 'POST',
         credentials: 'include'
       });
@@ -143,7 +143,7 @@ export default function QRProfilePage() {
                 <div>
                   <label className="block text-white/80 text-sm font-medium mb-2">Resume:</label>
                   <a 
-                    href={`http://localhost:3001/api/hackers/resume/${profile.uuid}`} 
+                    href={`/api/hackers/resume/${profile.uuid}`} 
                     target="_blank" 
                     rel="noopener"
                     className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-lg font-medium hover:from-green-600 hover:to-green-700 transition-all transform hover:-translate-y-0.5 shadow-lg"

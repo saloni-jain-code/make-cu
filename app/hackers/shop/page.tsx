@@ -36,7 +36,7 @@ export default function HardwareShopPage() {
   useEffect(() => {
     const fetchShopData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/hackers/shop', {
+        const response = await fetch('/api/hackers/shop', {
           credentials: 'include'
         });
         if (response.ok) {
@@ -74,7 +74,7 @@ export default function HardwareShopPage() {
     }
 
     try {
-      const response = await fetch('http://localhost:3001/api/hackers/shop/purchase', {
+      const response = await fetch('/api/hackers/shop/purchase', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

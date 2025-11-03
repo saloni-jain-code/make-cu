@@ -11,11 +11,14 @@ export default function QRLoginPage() {
   const next = searchParams.get('next') || '/hackers/dashboard';
 
   const handleGoogleLogin = () => {
-    window.location.href = `http://localhost:3001/api/hackers/auth/google${next ? `?state=${encodeURIComponent(next)}` : ''}`;
+    const nextParam = next ? `?state=${encodeURIComponent(next)}` : "";
+    window.location.href = `/api/hackers/auth/google${nextParam}`;
   };
 
   const handleGitHubLogin = () => {
-    window.location.href = `http://localhost:3001/api/hackers/auth/github${next ? `?state=${encodeURIComponent(next)}` : ''}`;
+    const nextParam = next ? `?state=${encodeURIComponent(next)}` : "";
+    window.location.href = `/api/hackers/auth/github${nextParam}`;
+    //window.location.href = `http://localhost:3001/api/hackers/auth/github${next ? `?state=${encodeURIComponent(next)}` : ''}`;
   };
 
   return (

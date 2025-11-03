@@ -12,29 +12,6 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
 const cors = require('cors');
 
-// const {
-//   getUserByEmail,
-//   getUserById,
-//   getUserByUuid,
-//   createUser,
-//   updateUserProfile,
-//   addSave,
-//   getSavesForViewer,
-//   getAllUsers,
-//   getAllSaves,
-//   getUserStats,
-//   createTeam,
-//   getTeamByName,
-//   verifyTeamPassword,
-//   addTeamMember,
-//   removeTeamMember,
-//   getUserTeam,
-//   getTeamMembers,
-//   getTeamBudget,
-//   getHardwareItems,
-//   purchaseHardware,
-//   getTeamPurchases,
-// } = require('./data-sqlite');
 const {
   getUserByEmail,
   getUserById,
@@ -46,6 +23,17 @@ const {
   getAllUsers,
   getAllSaves,
   getUserStats,
+  createTeam,
+  getTeamByName,
+  verifyTeamPassword,
+  addTeamMember,
+  removeTeamMember,
+  getUserTeam,
+  getTeamMembers,
+  getTeamBudget,
+  getHardwareItems,
+  purchaseHardware,
+  getTeamPurchases,
 } = require('./data-supabase');
 
 

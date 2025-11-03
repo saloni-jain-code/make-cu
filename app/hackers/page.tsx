@@ -10,7 +10,7 @@ export default function QRHomePage() {
     // Check if user is logged in (this would be replaced with actual auth logic)
     const checkAuth = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/hackers/auth/check', {
+        const response = await fetch('/api/hackers/auth/check', {
           credentials: 'include'
         });
         if (response.ok) {
@@ -27,7 +27,7 @@ export default function QRHomePage() {
 
   const handleLogout = async () => {
     try {
-      await fetch('http://localhost:3001/api/hackers/logout', {
+      await fetch('/api/hackers/logout', {
         method: 'POST',
         credentials: 'include'
       });

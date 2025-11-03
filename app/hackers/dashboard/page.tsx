@@ -68,7 +68,7 @@ export default function QRDashboardPage() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/hackers/dashboard', {
+        const response = await fetch('/api/hackers/dashboard', {
           credentials: 'include'
         });
         if (response.ok) {
@@ -92,11 +92,12 @@ export default function QRDashboardPage() {
   useEffect(() => {
     const fetchTeamData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/hackers/teams/current', {
+        const response = await fetch('/api/hackers/teams/current', {
           credentials: 'include'
         });
         if (response.ok) {
           const data = await response.json();
+          console.log('Fetched team data:', data.team);
           setTeam(data.team);
           setTeamMembers(data.members || []);
           setBudget(data.budget);
@@ -112,7 +113,7 @@ export default function QRDashboardPage() {
 
   const handleProfileUpdate = async (formData: FormData) => {
     try {
-      const response = await fetch('http://localhost:3001/api/hackers/profile', {
+      const response = await fetch('/api/hackers/profile', {
         method: 'POST',
         body: formData,
         credentials: 'include'
@@ -129,7 +130,7 @@ export default function QRDashboardPage() {
 
   const handleLogout = async () => {
     try {
-      await fetch('http://localhost:3001/api/hackers/logout', {
+      await fetch('/api/hackers/logout', {
         method: 'POST',
         credentials: 'include'
       });
@@ -142,7 +143,7 @@ export default function QRDashboardPage() {
   const handleTeamSubmit = async (action: 'create' | 'join') => {
     setTeamError('');
     try {
-      const response = await fetch(`http://localhost:3001/api/hackers/teams/${action}`, {
+      const response = await fetch(`/api/hackers/teams/${action}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -164,7 +165,7 @@ export default function QRDashboardPage() {
     if (!confirm('Are you sure you want to leave this team?')) return;
     
     try {
-      const response = await fetch('http://localhost:3001/api/hackers/teams/leave', {
+      const response = await fetch('/api/hackers/teams/leave', {
         method: 'POST',
         credentials: 'include'
       });
@@ -253,7 +254,7 @@ export default function QRDashboardPage() {
               
               {user?.resume_path && (
                 <p className="text-white/80">
-                  Current resume: <a href={`http://localhost:3001/api/hackers/resume/${user.uuid}`} target="_blank" rel="noopener" className="text-blue-300 hover:text-blue-200 underline">View/Download</a>
+                  Current resume: <a href={`/api/hackers/resume/${user.uuid}`} target="_blank" rel="noopener" className="text-blue-300 hover:text-blue-200 underline">View/Download</a>
                 </p>
               )}
               
@@ -440,7 +441,7 @@ export default function QRDashboardPage() {
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-6">
             <h3 className="text-2xl font-semibold text-white mb-4">Saved Profiles</h3>
             
-            {saves.length === 0 ? (
+            {!saves || saves.length === 0 ? (
               <p className="text-white/80">You haven't saved any profiles yet. Scan a QR code and click Save.</p>
             ) : (
               <div className="space-y-4">
@@ -463,7 +464,7 @@ export default function QRDashboardPage() {
                           <>
                             <span className="text-white/40">|</span>
                             <a 
-                              href={`http://localhost:3001/api/hackers/resume/${save.viewed_uuid}`} 
+                              href={`/api/hackers/resume/${save.viewed_uuid}`} 
                               target="_blank"
                               className="text-blue-300 hover:text-blue-200 text-sm underline"
                             >

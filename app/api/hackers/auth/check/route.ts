@@ -1,8 +1,17 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+import { getSessionUser } from "@/lib/auth"; // adjust path if needed
 
-// Simple auth check - in a real implementation, this would check session/JWT
-export async function GET(request: NextRequest) {
-  // For now, return not authenticated
-  // In a real implementation, you would check cookies/session here
-  return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+export async function GET() {
+  try {
+    const user = await getSessionUser();
+
+    if (!user) {
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    }
+
+    return NextResponse.json({ user });
+  } catch (error) {
+    console.error("Auth check error:", error);
+    return NextResponse.json({ error: "Failed to verify authentication" }, { status: 500 });
+  }
 }
