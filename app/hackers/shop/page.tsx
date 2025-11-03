@@ -230,7 +230,10 @@ export default function HardwareShopPage() {
 
                 <button
                   onClick={() => handlePurchase(item.id, item.cost)}
-                  disabled={item.stock === 0 || (budget && item.cost * (quantities[item.id] || 1) > budget.remaining)}
+                  disabled={
+                    item.stock === 0 ||
+                    (budget ? item.cost * (quantities[item.id] || 1) > budget.remaining : false)
+                  }
                   className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-2 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-green-500 disabled:hover:to-green-600"
                 >
                   {item.stock === 0 ? 'Out of Stock' : 'Purchase'}
