@@ -4,7 +4,7 @@ import { getUserByUuid, addSave } from "@/data-supabase";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { uuid: string } }
+  { params }: { params: Promise<{ uuid: string }> }
 ) {
   try {
     // Check authentication
@@ -13,7 +13,7 @@ export async function POST(
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const { uuid } = params;
+    const { uuid } = await params;
 
     // Prevent saving own profile
     if (user.id === uuid || user.uuid === uuid) {
