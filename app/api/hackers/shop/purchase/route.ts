@@ -18,14 +18,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { itemId, quantity } = await req.json();
+    const { purchases } = await req.json();
 
     // Validate input
-    if (!itemId || !quantity || quantity < 1) {
-      return NextResponse.json(
-        { error: "Invalid item or quantity" },
-        { status: 400 }
-      );
+    if (!purchases || !Array.isArray(purchases) || purchases.length === 0) {
+        return NextResponse.json(
+          { error: "Invalid purchases data" },
+          { status: 400 }
+        );
     }
 
     // Check if user is in a team
@@ -40,16 +40,30 @@ export async function POST(req: NextRequest) {
     // Check budget
     const budget = await getTeamBudget(teamId);
     const items = await getHardwareItems();
-    const item = items.find((i) => i.id === itemId);
 
-    if (!item) {
-      return NextResponse.json(
-        { error: "Item not found" },
-        { status: 404 }
-      );
+    // Calculate total cost and validate all items
+    let totalCost = 0;
+    for (const purchase of purchases) {
+      const { itemId, quantity } = purchase;
+      
+      if (!itemId || !quantity || quantity < 1) {
+        return NextResponse.json(
+          { error: `Invalid item or quantity for item ${itemId}` },
+          { status: 400 }
+        );
+      }
+
+      const item = items.find((i) => i.id === itemId);
+      if (!item) {
+        return NextResponse.json(
+          { error: `Item ${itemId} not found` },
+          { status: 404 }
+        );
+      }
+
+      totalCost += item.cost * quantity;
     }
 
-    const totalCost = item.cost * quantity;
     if (totalCost > budget.remaining) {
       return NextResponse.json(
         { error: "Insufficient budget" },
@@ -57,8 +71,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Purchase the item
-    await purchaseHardware(teamId, itemId, quantity);
+    // Purchase all items
+    for (const purchase of purchases) {
+      await purchaseHardware(teamId, purchase.itemId, purchase.quantity);
+    }
+
 
     return NextResponse.json({ success: true });
   } catch (error: any) {

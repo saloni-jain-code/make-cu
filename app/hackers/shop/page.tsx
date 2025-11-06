@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import HardwareItemCard from './HardwareItemCard';
+import CartSummary from './CartSummary';
 
 interface HardwareItem {
   id: number;
@@ -10,6 +12,8 @@ interface HardwareItem {
   cost: number;
   stock: number;
   category: string;
+  compatibility: string;
+  image_url: string;
 }
 
 interface Budget {
@@ -24,32 +28,30 @@ interface Team {
   name: string;
 }
 
+interface CartItem {
+  item: HardwareItem;
+  quantity: number;
+}
+
 export default function HardwareShopPage() {
   const [items, setItems] = useState<HardwareItem[]>([]);
   const [budget, setBudget] = useState<Budget | null>(null);
   const [team, setTeam] = useState<Team | null>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCompatibility, setSelectedCompatibility] = useState('All');
   const [purchaseMessage, setPurchaseMessage] = useState('');
-  const [quantities, setQuantities] = useState<{[key: number]: number}>({});
+  const [cart, setCart] = useState<CartItem[]>([]);
 
   useEffect(() => {
     const fetchShopData = async () => {
       try {
-        const response = await fetch('/api/hackers/shop', {
-          credentials: 'include'
-        });
+        const response = await fetch('/api/hackers/shop', { credentials: 'include' });
         if (response.ok) {
           const data = await response.json();
           setItems(data.items);
           setBudget(data.budget);
           setTeam(data.team);
-          // Initialize quantities to 1 for each item
-          const initialQuantities: {[key: number]: number} = {};
-          data.items.forEach((item: HardwareItem) => {
-            initialQuantities[item.id] = 1;
-          });
-          setQuantities(initialQuantities);
         } else {
           window.location.href = '/hackers/dashboard';
         }
@@ -59,13 +61,41 @@ export default function HardwareShopPage() {
         setLoading(false);
       }
     };
-
     fetchShopData();
   }, []);
 
-  const handlePurchase = async (itemId: number, itemCost: number) => {
-    const quantity = quantities[itemId] || 1;
-    const totalCost = itemCost * quantity;
+  const addToCart = (item: HardwareItem, quantity: number) => {
+    setCart(prev => {
+      const existing = prev.find(ci => ci.item.id === item.id);
+      if (existing) {
+        return prev.map(ci =>
+          ci.item.id === item.id
+            ? { ...ci, quantity: Math.min(ci.quantity + quantity, item.stock) }
+            : ci
+        );
+      }
+      return [...prev, { item, quantity }];
+    });
+  };
+
+  const removeFromCart = (itemId: number) => {
+    setCart(prev => prev.filter(ci => ci.item.id !== itemId));
+  };
+
+  const updateQuantity = (itemId: number, newQty: number) => {
+    setCart(prev =>
+      prev.map(ci =>
+        ci.item.id === itemId ? { ...ci, quantity: newQty } : ci
+      )
+    );
+  };
+
+  const handleCheckout = async () => {
+    if (cart.length === 0) return;
+
+    const totalCost = cart.reduce((sum, ci) => sum + ci.item.cost * ci.quantity, 0);
+    // print out item id and quantity for each thing in cart to console
+    console.log('Purchasing items:', cart.map(ci => ({ itemId: ci.item.id, quantity: ci.quantity })));
 
     if (budget && totalCost > budget.remaining) {
       setPurchaseMessage('Insufficient budget!');
@@ -78,21 +108,21 @@ export default function HardwareShopPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ itemId, quantity })
+        body: JSON.stringify({
+          purchases: cart.map(ci => ({ itemId: ci.item.id, quantity: ci.quantity }))
+        })
       });
 
       if (response.ok) {
         setPurchaseMessage('Purchase successful!');
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        setTimeout(() => window.location.reload(), 1000);
       } else {
         const data = await response.json();
         setPurchaseMessage(data.error || 'Purchase failed');
         setTimeout(() => setPurchaseMessage(''), 3000);
       }
     } catch (error) {
-      setPurchaseMessage('Failed to purchase item');
+      setPurchaseMessage('Failed to purchase items');
       setTimeout(() => setPurchaseMessage(''), 3000);
     }
   };
@@ -106,13 +136,19 @@ export default function HardwareShopPage() {
   }
 
   const categories = ['All', ...new Set(items.map(item => item.category))];
-  const filteredItems = selectedCategory === 'All' 
-    ? items 
-    : items.filter(item => item.category === selectedCategory);
+  const compatibilities = ['All', 'Raspberry Pi', 'Arduino', 'Both'];
+
+  let filteredItems = items;
+  if (selectedCategory !== 'All') {
+    filteredItems = filteredItems.filter(item => item.category === selectedCategory);
+  }
+  if (selectedCompatibility !== 'All') {
+    filteredItems = filteredItems.filter(item => item.compatibility === selectedCompatibility);
+  }
 
   return (
-    <main className="min-h-screen">
-      {/* Navigation */}
+    <main className="min-h-screen flex flex-col">
+      {/* Nav */}
       <nav className="bg-white/10 backdrop-blur-md border-b border-white/20">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link href="/hackers/dashboard" className="text-white font-bold text-xl glow-text">
@@ -122,134 +158,99 @@ export default function HardwareShopPage() {
             <div className="flex items-center gap-6">
               <div className="text-right">
                 <p className="text-white/60 text-sm">Team: {team.name}</p>
-                <p className="text-white font-bold">Budget: ${budget.remaining} / ${budget.maxBudget}</p>
+                <p className="text-white font-bold">
+                  Budget: ${budget.remaining} / ${budget.maxBudget}
+                </p>
               </div>
             </div>
           )}
         </div>
       </nav>
 
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
+      {/* Main content with sidebar */}
+      <div className="flex flex-col lg:flex-row container mx-auto px-4 py-8 gap-8">
+        <div className="flex-1">
           <h1 className="text-4xl font-bold text-white glow-text mb-4">Hardware Shop</h1>
-          <p className="text-white/80">Purchase hardware for your hackathon project!</p>
-        </div>
+          <p className="text-white/80 mb-8">Add items to your cart and purchase when ready!</p>
 
-        {purchaseMessage && (
-          <div className={`mb-6 p-4 rounded-lg ${
-            purchaseMessage.includes('successful') 
-              ? 'bg-green-500/20 border border-green-500/30 text-green-200' 
-              : 'bg-red-500/20 border border-red-500/30 text-red-200'
-          }`}>
-            {purchaseMessage}
-          </div>
-        )}
-
-        {/* Budget Display */}
-        {budget && (
-          <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-6 mb-8">
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <p className="text-white/60 text-sm">Total Budget</p>
-                <p className="text-2xl font-bold text-white">${budget.maxBudget}</p>
-              </div>
-              <div>
-                <p className="text-white/60 text-sm">Spent</p>
-                <p className="text-2xl font-bold text-red-300">${budget.totalSpent}</p>
-              </div>
-              <div>
-                <p className="text-white/60 text-sm">Remaining</p>
-                <p className="text-2xl font-bold text-green-300">${budget.remaining}</p>
-              </div>
-            </div>
-            <div className="mt-4 bg-white/10 rounded-full h-4 overflow-hidden">
-              <div 
-                className="bg-gradient-to-r from-green-500 to-blue-500 h-full transition-all"
-                style={{ width: `${(budget.remaining / budget.maxBudget) * 100}%` }}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Category Filter */}
-        <div className="mb-6 flex flex-wrap gap-2">
-          {categories.map(category => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                selectedCategory === category
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-white/10 text-white/80 hover:bg-white/20'
+          {purchaseMessage && (
+            <div
+              className={`mb-6 p-4 rounded-lg ${
+                purchaseMessage.includes('successful')
+                  ? 'bg-green-500/20 border border-green-500/30 text-green-200'
+                  : 'bg-red-500/20 border border-red-500/30 text-red-200'
               }`}
             >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        {/* Items Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredItems.map(item => (
-            <div 
-              key={item.id}
-              className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-6 hover:bg-white/15 transition-all"
-            >
-              <div className="mb-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-bold text-white">{item.name}</h3>
-                  <span className="bg-green-500/20 text-green-300 px-2 py-1 rounded text-xs font-bold">
-                    ${item.cost}
-                  </span>
-                </div>
-                <p className="text-white/60 text-sm mb-2">{item.description}</p>
-                <p className="text-white/80 text-sm">
-                  Stock: <span className={item.stock > 10 ? 'text-green-300' : 'text-orange-300'}>{item.stock}</span>
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <label className="text-white text-sm">Qty:</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max={item.stock}
-                    value={quantities[item.id] || 1}
-                    onChange={(e) => setQuantities({
-                      ...quantities,
-                      [item.id]: Math.min(Math.max(1, parseInt(e.target.value) || 1), item.stock)
-                    })}
-                    className="w-20 p-2 border border-white/30 rounded bg-white/10 text-white text-center focus:outline-none focus:border-blue-400"
-                  />
-                  <span className="text-white/60 text-sm">
-                    = ${item.cost * (quantities[item.id] || 1)}
-                  </span>
-                </div>
-
-                <button
-                  onClick={() => handlePurchase(item.id, item.cost)}
-                  disabled={
-                    item.stock === 0 ||
-                    (budget ? item.cost * (quantities[item.id] || 1) > budget.remaining : false)
-                  }
-                  className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-2 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-green-500 disabled:hover:to-green-600"
-                >
-                  {item.stock === 0 ? 'Out of Stock' : 'Purchase'}
-                </button>
-              </div>
+              {purchaseMessage}
             </div>
-          ))}
+          )}
+
+          {/* Filters */}
+          <p className='text-xs text-white/80 mb-2'>Filter by category.</p>
+          <div className="mb-6 flex flex-wrap gap-2">
+            {categories.map(category => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                  selectedCategory === category
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-white/10 text-white/80 hover:bg-white/20'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+          
+          <p className='text-xs text-white/80 mb-2'>Filter by compatibility to your microcontroller.</p>
+          <div className="mb-6 flex flex-wrap gap-2">
+            {compatibilities.map(comp => (
+              <button
+                key={comp}
+                onClick={() => setSelectedCompatibility(comp)}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                  selectedCompatibility === comp
+                    ? 'bg-purple-500 text-white'
+                    : 'bg-white/10 text-white/80 hover:bg-white/20'
+                }`}
+              >
+                {comp}
+              </button>
+            ))}
+          </div>
+
+          {/* Item Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+            {filteredItems.map(item => (
+              <HardwareItemCard
+                key={item.id}
+                item={item}
+                addToCart={addToCart}
+              />
+            ))}
+          </div>
+
+          {filteredItems.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-white/60 text-lg">No items found</p>
+            </div>
+          )}
         </div>
 
-        {filteredItems.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-white/60 text-lg">No items found in this category</p>
-          </div>
-        )}
+        {/* Cart Sidebar */}
+        <aside className="sticky top-8 self-start w-96 h-fit">
+            <CartSummary
+              cart={cart}
+              budget={budget}
+              removeFromCart={removeFromCart}
+              updateQuantity={updateQuantity}
+              handleCheckout={handleCheckout}
+            />
+        </aside>
+
+
       </div>
     </main>
   );
 }
-

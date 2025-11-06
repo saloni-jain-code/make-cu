@@ -237,7 +237,7 @@ async function getTeamBudget(team_id) {
 
   const memberCount = members.length;
   const totalSpent = purchases.reduce((sum, p) => sum + (p.total_cost || 0), 0);
-  const maxBudget = 2000 * Math.min(memberCount, 4);
+  const maxBudget = 1000 * Math.min(memberCount, 4);
   const remaining = maxBudget - totalSpent;
 
   return { maxBudget, totalSpent, remaining, memberCount };
@@ -290,11 +290,23 @@ async function purchaseHardware(team_id, item_id, quantity) {
 async function getTeamPurchases(team_id) {
   const { data, error } = await supabase
     .from('team_purchases')
-    .select('*, hardware_items(name)')
+    .select(`
+      *,
+      hardware_items!inner(name)
+    `)
     .eq('team_id', team_id)
     .order('purchased_at', { ascending: false });
+
   if (error) throw error;
-  return data || [];
+
+  // Flatten hardware_items fields into the top-level object
+  const formatted = data.map(row => ({
+    ...row,
+    name: row.hardware_items.name,
+    hardware_items: undefined, // remove nested object if you want exact same structure
+  }));
+
+  return formatted || [];
 }
 
 module.exports = {
