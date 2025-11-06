@@ -143,7 +143,7 @@ export default function HardwareShopPage() {
     filteredItems = filteredItems.filter(item => item.category === selectedCategory);
   }
   if (selectedCompatibility !== 'All') {
-    filteredItems = filteredItems.filter(item => item.compatibility === selectedCompatibility);
+    filteredItems = filteredItems.filter(item => item.compatibility === selectedCompatibility || item.compatibility === 'Both');
   }
 
   return (
