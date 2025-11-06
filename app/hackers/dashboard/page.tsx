@@ -205,7 +205,7 @@ export default function QRDashboardPage() {
             )}
             <button 
               onClick={handleLogout}
-              className="text-white hover:text-blue-300 transition-colors"
+              className="text-white bg-white/20 border border-white/30 px-4 py-2 rounded-lg hover:bg-white/30 hover:border-white/40 transition-all"
             >
               Logout
             </button>
@@ -319,7 +319,7 @@ export default function QRDashboardPage() {
                         <p className="text-white/80">Total Budget: <span className="text-white font-bold">${budget.maxBudget}</span></p>
                         <p className="text-white/80">Spent: <span className="text-red-300 font-bold">${budget.totalSpent}</span></p>
                         <p className="text-white/80">Remaining: <span className="text-green-300 font-bold">${budget.remaining}</span></p>
-                        <p className="text-white/60 text-xs mt-2">Budget formula: $2000 × min(members, 4) = $2000 × {Math.min(budget.memberCount, 4)}</p>
+                        <p className="text-white/60 text-xs mt-2">Budget formula: $1000 × min(members, 4) = $1000 × {Math.min(budget.memberCount, 4)}</p>
                       </div>
                     </div>
                   )}
@@ -338,16 +338,16 @@ export default function QRDashboardPage() {
 
                   <Link
                     href="/hackers/shop"
-                    className="inline-block bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all transform hover:-translate-y-0.5 shadow-lg"
+                    className="inline-block bg-white/20 backdrop-blur-md border border-white/30 text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/30 hover:border-white/40 hover:scale-105 hover:shadow-lg hover:shadow-white/20 transition-all duration-200"
                   >
-                    🛒 Go to Hardware Shop
+                    Go to Hardware Shop
                   </Link>
 
                   {purchases.length > 0 && (
                     <div className="mt-4">
-                      <h5 className="text-white font-semibold mb-2">Recent Purchases</h5>
+                      <h5 className="text-white font-semibold mb-2">Purchase History</h5>
                       <div className="space-y-2">
-                        {purchases.slice(0, 3).map((purchase) => (
+                        {purchases.map((purchase) => (
                           <div key={purchase.id} className="bg-white/5 rounded p-2">
                             <div className="flex justify-between items-start">
                               <div>
