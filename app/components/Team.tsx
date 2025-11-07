@@ -28,26 +28,12 @@ const teams: TeamData[] = [
       icon: Calendar,
       members: [
         {
-          name: "Celeste Lamadrid",
-          class: "SEAS '26",
-          major: "Mechanical Engineering",
-          linkedin: "https://www.linkedin.com/in/celeste-lamadrid/",
-          profilePicture: "/team/celeste.jpg"
-        },
-        {
           name: "James Zhang",
           class: "MS, SEAS '26",
           major: "Electrical Engineering",
           linkedin: "https://www.linkedin.com/in/tjzhang5741/",
           profilePicture: "/team/james.jpg"
         },
-        {
-          name: "Isaac Trost",
-          class: "SEAS '26",
-          major: "Computer Science",
-          linkedin: "https://www.linkedin.com/in/william-trost-971159244/",
-          profilePicture: "/team/isaac.jpg"
-        }
       ]
     },
     {
@@ -60,6 +46,13 @@ const teams: TeamData[] = [
           major: "Computer Science + Applied Math",
           linkedin: "https://www.linkedin.com/in/saloni-jain-columbia/",
           profilePicture: "/team/saloni.jpg"
+        },
+        {
+          name: "Isaac Trost",
+          class: "SEAS '26",
+          major: "Computer Science",
+          linkedin: "https://www.linkedin.com/in/william-trost-971159244/",
+          profilePicture: "/team/isaac.jpg"
         }
       ]
     },
@@ -73,11 +66,25 @@ const teams: TeamData[] = [
           major: "Material Science + Computer Science",
           linkedin: "https://www.linkedin.com/in/mannatvjain/",
           profilePicture: "/team/mannat.png"
+        },
+        {
+          name: "Mayah Park",
+          class: "SPS'26",
+          major: "Strategic Comunications",
+          linkedin: "https://www.linkedin.com/in/mayah-park",
+          profilePicture: "/team/mayah.png"
+        },
+        {
+          name: "Jia Liu",
+          class: "GS '26",
+          major: "Computer Science",
+          linkedin: "",
+          profilePicture: "/team/jia.jpg"
         }
       ]
     },
     {
-      title: "Finance",
+      title: "Logistics",
       icon: DollarSign,
       members: [
         {
@@ -88,24 +95,24 @@ const teams: TeamData[] = [
           profilePicture: "/team/alice.jpeg"
         },
         {
-          name: "Sunny Hu",
+          name: "Celeste Lamadrid",
           class: "SEAS '26",
-          major: "Electrical Engineering",
-          linkedin: "https://www.linkedin.com/in/sunny-hu-columbia/",
-          profilePicture: "/team/sunny.jpeg"
+          major: "Mechanical Engineering",
+          linkedin: "https://www.linkedin.com/in/celeste-lamadrid/",
+          profilePicture: "/team/celeste.jpg"
         }
       ]
     },
     {
-      title: "Business",
+      title: "Sponsorship",
       icon: Briefcase,
       members: [
         {
-          name: "Jia Liu",
-          class: "GS '26",
+          name: "Matthew Spana",
+          class: "MS CS '26",
           major: "Computer Science",
-          linkedin: "",
-          profilePicture: "/team/jia.jpg"
+          linkedin: "https://www.linkedin.com/in/matthew-spana/",
+          profilePicture: "/team/matt.jpeg"
         }
       ]
     }
@@ -220,7 +227,7 @@ const MeetTheTeam: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="font-mono text-3xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-8 text-white text-center">
-            Meet the Team
+            Contact Us
           </h1>
         </div>
         

@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import './globals.css'
 import { Inter, Orbitron } from 'next/font/google'
 import ParallaxStars from './components/ParallaxStars'
+import { Analytics } from "@vercel/analytics/next"
+import NavBar from "./components/NavBar"
+import Footer from "./components/Footer"
 
 export const metadata: Metadata = {
   title: "MakeCU 2025",
@@ -23,10 +26,24 @@ const orbitron = Orbitron({
 
 export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
   return (
-    <html lang="en" className={`${orbitron.variable} ${inter.variable} bg-gradient-to-b from-[#01206a] to-white min-h-screen`}>
+    <html lang="en" className={`${orbitron.variable} ${inter.variable} min-h-screen`}>
       <body className={inter.className}>
+      <a 
+        id="mlh-trust-badge" 
+        className="fixed top-0 right-[20px] z-[10000] w-[60px] md:w-[100px]"
+        href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2026-season&utm_content=white"
+        target="_blank">
+        <img 
+          src="https://s3.amazonaws.com/logged-assets/trust-badge/2026/mlh-trust-badge-2026-white.svg" 
+          alt="Major League Hacking 2026 Hackathon Season" 
+          style={{ width: '100%' }}
+        ></img>
+      </a>
+      <Analytics />
       <ParallaxStars />
-        {children}
+        <NavBar />
+          {children}
+        <Footer />
         </body>
     </html>
   )

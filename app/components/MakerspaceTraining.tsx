@@ -218,12 +218,6 @@ const MakerspaceTraining: React.FC = () => {
           url: "https://forms.gle/USAUSy4kVYeBsDoJA"
         },
         {
-          id: "wood-shop-quiz",
-          title: "Wood Shop Quiz",
-          type: "quiz",
-          url: "https://forms.gle/cMnWGiVFQuW2NCLC7"
-        },
-        {
           id: "embroidery-quiz",
           title: "Embroidery Machine Quiz",
           type: "quiz",
