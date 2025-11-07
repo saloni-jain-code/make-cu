@@ -1,0 +1,30 @@
+
+> make-cu@0.1.0 build
+> next build
+
+   ▲ Next.js 15.3.3
+   - Environments: .env
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./app/api/hackers/dashboard/route.ts
+Module not found: Can't resolve 'qrcode'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./app/api/hackers/teams/create/route.ts
+Module not found: Can't resolve 'bcrypt'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./data-supabase.js
+Module not found: Can't resolve 'bcrypt'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./app/api/hackers/admin/route.ts
+
+
+> Build failed because of webpack errors
