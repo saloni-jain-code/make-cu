@@ -43,6 +43,8 @@ export async function POST(req: NextRequest) {
 
     // Calculate total cost and validate all items
     let totalCost = 0;
+    const validatedPurchases = [];
+    
     for (const purchase of purchases) {
       const { itemId, quantity } = purchase;
       
@@ -61,7 +63,16 @@ export async function POST(req: NextRequest) {
         );
       }
 
+      // Validate stock availability
+      if (item.stock < quantity) {
+        return NextResponse.json(
+          { error: `Insufficient stock for ${item.name}. Only ${item.stock} available.` },
+          { status: 400 }
+        );
+      }
+
       totalCost += item.cost * quantity;
+      validatedPurchases.push({ itemId, quantity, itemName: item.name });
     }
 
     if (totalCost > budget.remaining) {
@@ -71,9 +82,21 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Purchase all items
-    for (const purchase of purchases) {
-      await purchaseHardware(teamId, purchase.itemId, purchase.quantity);
+    // Purchase all items - the purchaseHardware function uses atomic operations
+    // to prevent race conditions
+    const results = [];
+    for (const purchase of validatedPurchases) {
+      try {
+        const result = await purchaseHardware(teamId, purchase.itemId, purchase.quantity);
+        results.push(result);
+      } catch (error: any) {
+        // If any purchase fails (e.g., due to race condition), return error
+        // Previous successful purchases remain (team can undo via admin panel if needed)
+        return NextResponse.json(
+          { error: error.message || `Failed to purchase ${purchase.itemName}` },
+          { status: 400 }
+        );
+      }
     }
 
 

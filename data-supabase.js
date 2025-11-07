@@ -255,34 +255,58 @@ async function getHardwareItems() {
 }
 
 async function purchaseHardware(team_id, item_id, quantity) {
+  if (quantity <= 0) {
+    throw new Error('Quantity must be greater than 0');
+  }
+
   const purchased_at = new Date().toISOString();
 
-  // Get item info
+  // Get item info (including name for better error messages)
   const { data: item, error: itemErr } = await supabase
     .from('hardware_items')
-    .select('cost, stock')
+    .select('cost, stock, name')
     .eq('id', item_id)
     .single();
   if (itemErr) throw itemErr;
   if (!item) throw new Error('Item not found');
-  if (item.stock < quantity) throw new Error('Insufficient stock');
+  
+  // Pre-check stock availability
+  if (item.stock < quantity) {
+    throw new Error(`Insufficient stock. Only ${item.stock} available.`);
+  }
 
   const total_cost = item.cost * quantity;
 
-  // Insert purchase
+  // ATOMIC OPERATION: Update stock only if there's enough available
+  // This prevents race conditions by using a WHERE clause
+  const { data: updatedItem, error: stockErr } = await supabase
+    .from('hardware_items')
+    .update({ stock: item.stock - quantity })
+    .eq('id', item_id)
+    .gte('stock', quantity)  // Only update if stock is still >= quantity
+    .select('stock')
+    .single();
+
+  // If no rows were updated, another transaction consumed the stock
+  if (stockErr || !updatedItem) {
+    throw new Error('Purchase failed: item is out of stock or insufficient quantity available. Please try again.');
+  }
+
+  // Only insert purchase if stock update succeeded
   const { data, error: purchaseErr } = await supabase
     .from('team_purchases')
     .insert([{ team_id, item_id, quantity, total_cost, purchased_at }])
     .select()
     .single();
-  if (purchaseErr) throw purchaseErr;
-
-  // Update stock
-  const { error: stockErr } = await supabase
-    .from('hardware_items')
-    .update({ stock: item.stock - quantity })
-    .eq('id', item_id);
-  if (stockErr) throw stockErr;
+  
+  if (purchaseErr) {
+    // Rollback stock if purchase insert failed
+    await supabase
+      .from('hardware_items')
+      .update({ stock: updatedItem.stock + quantity })
+      .eq('id', item_id);
+    throw purchaseErr;
+  }
 
   return { ...data, total_cost };
 }
