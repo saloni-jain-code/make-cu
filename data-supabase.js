@@ -311,33 +311,47 @@ async function getTeamPurchases(team_id) {
 
 // === ADMIN - ORDERS ===
 async function getAllOrders() {
-  const { data, error } = await supabase
-    .from('team_purchases')
-    .select(`
-      *,
-      hardware_items!inner(name, description),
-      teams!inner(name)
-    `)
-    .order('purchased_at', { ascending: false });
+  try {
+    const { data, error } = await supabase
+      .from('team_purchases')
+      .select(`
+        *,
+        hardware_items(name, description),
+        teams(name)
+      `)
+      .order('purchased_at', { ascending: false });
 
-  if (error) throw error;
+    if (error) {
+      console.error('getAllOrders Supabase error:', error);
+      throw error;
+    }
 
-  // Flatten nested objects
-  const formatted = (data || []).map(row => ({
-    id: row.id,
-    team_id: row.team_id,
-    team_name: row.teams.name,
-    item_id: row.item_id,
-    item_name: row.hardware_items.name,
-    item_description: row.hardware_items.description,
-    quantity: row.quantity,
-    total_cost: row.total_cost,
-    purchased_at: row.purchased_at,
-    fulfilled: row.fulfilled || false,
-    fulfilled_at: row.fulfilled_at || null,
-  }));
+    if (!data || data.length === 0) {
+      console.log('No orders found in database');
+      return [];
+    }
 
-  return formatted;
+    // Flatten nested objects
+    const formatted = data.map(row => ({
+      id: row.id,
+      team_id: row.team_id,
+      team_name: row.teams?.name || 'Unknown Team',
+      item_id: row.item_id,
+      item_name: row.hardware_items?.name || 'Unknown Item',
+      item_description: row.hardware_items?.description || '',
+      quantity: row.quantity,
+      total_cost: row.total_cost,
+      purchased_at: row.purchased_at,
+      // Handle case where fulfilled columns might not exist yet
+      fulfilled: row.fulfilled !== undefined ? row.fulfilled : false,
+      fulfilled_at: row.fulfilled_at !== undefined ? row.fulfilled_at : null,
+    }));
+
+    return formatted;
+  } catch (err) {
+    console.error('getAllOrders error:', err);
+    throw err;
+  }
 }
 
 async function markOrderFulfilled(purchaseId, fulfilled = true) {

@@ -21,6 +21,8 @@ export async function GET() {
 
     // Fetch all orders
     const orders = await getAllOrders();
+    console.log("📦 Admin orders fetched:", orders ? orders.length : 0, "orders");
+    console.log("First order sample:", orders?.[0]);
 
     return NextResponse.json({ orders });
   } catch (error) {
