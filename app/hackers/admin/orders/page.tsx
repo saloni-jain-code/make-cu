@@ -53,10 +53,11 @@ export default function AdminOrdersPage() {
   const filterOrders = () => {
     let filtered = orders;
 
-    // Filter by search term (team name)
+    // Filter by search term (team name or item name)
     if (searchTerm) {
       filtered = filtered.filter(order =>
-        order.team_name.toLowerCase().includes(searchTerm.toLowerCase())
+        order.team_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        order.item_name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -117,6 +118,35 @@ export default function AdminOrdersPage() {
 
   const handleSingleOrderToggle = async (orderId: number, currentStatus: boolean) => {
     await markAsFulfilled([orderId], !currentStatus);
+  };
+
+  const handleUndoPurchase = async (orderId: number) => {
+    if (!confirm('Are you sure you want to undo this purchase? This will restore the item stock and return the money to the team.')) {
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/hackers/admin/orders/undo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ purchaseId: orderId })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setMessage(data.message || 'Purchase undone successfully!');
+        setTimeout(() => setMessage(''), 3000);
+        await fetchOrders();
+      } else {
+        const data = await response.json();
+        setMessage(data.error || 'Failed to undo purchase');
+        setTimeout(() => setMessage(''), 3000);
+      }
+    } catch (error) {
+      setMessage('Failed to undo purchase');
+      setTimeout(() => setMessage(''), 3000);
+    }
   };
 
   if (loading) {
@@ -194,12 +224,12 @@ export default function AdminOrdersPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             {/* Search */}
             <div>
-              <label className="block text-white/80 text-sm mb-2">Search by Team Name</label>
+              <label className="block text-white/80 text-sm mb-2">Search by Team or Item Name</label>
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Enter team name..."
+                placeholder="Enter team or item name..."
                 className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-blue-400"
               />
             </div>
@@ -315,16 +345,25 @@ export default function AdminOrdersPage() {
                         )}
                       </td>
                       <td className="p-4">
-                        <button
-                          onClick={() => handleSingleOrderToggle(order.id, order.fulfilled)}
-                          className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
-                            order.fulfilled
-                              ? 'bg-yellow-500/20 text-yellow-200 hover:bg-yellow-500/30'
-                              : 'bg-green-500/20 text-green-200 hover:bg-green-500/30'
-                          }`}
-                        >
-                          {order.fulfilled ? 'Mark Unfulfilled' : 'Mark Fulfilled'}
-                        </button>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleSingleOrderToggle(order.id, order.fulfilled)}
+                            className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
+                              order.fulfilled
+                                ? 'bg-yellow-500/20 text-yellow-200 hover:bg-yellow-500/30'
+                                : 'bg-green-500/20 text-green-200 hover:bg-green-500/30'
+                            }`}
+                          >
+                            {order.fulfilled ? 'Mark Unfulfilled' : 'Mark Fulfilled'}
+                          </button>
+                          <button
+                            onClick={() => handleUndoPurchase(order.id)}
+                            className="px-3 py-1 rounded-lg text-xs font-medium transition-colors bg-red-500/20 text-red-200 hover:bg-red-500/30"
+                            title="Undo this purchase (restore stock and return money)"
+                          >
+                            Undo
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}

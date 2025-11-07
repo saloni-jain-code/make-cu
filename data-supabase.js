@@ -382,6 +382,46 @@ async function markMultipleOrdersFulfilled(purchaseIds, fulfilled = true) {
   if (error) throw error;
 }
 
+async function undoPurchase(purchaseId) {
+  // Get the purchase details first
+  const { data: purchase, error: fetchError } = await supabase
+    .from('team_purchases')
+    .select('item_id, quantity')
+    .eq('id', purchaseId)
+    .single();
+
+  if (fetchError) throw fetchError;
+  if (!purchase) throw new Error('Purchase not found');
+
+  // Get current stock
+  const { data: item, error: itemError } = await supabase
+    .from('hardware_items')
+    .select('stock')
+    .eq('id', purchase.item_id)
+    .single();
+
+  if (itemError) throw itemError;
+  if (!item) throw new Error('Item not found');
+
+  // Restore stock
+  const { error: stockError } = await supabase
+    .from('hardware_items')
+    .update({ stock: item.stock + purchase.quantity })
+    .eq('id', purchase.item_id);
+
+  if (stockError) throw stockError;
+
+  // Delete the purchase (this automatically returns money to team)
+  const { error: deleteError } = await supabase
+    .from('team_purchases')
+    .delete()
+    .eq('id', purchaseId);
+
+  if (deleteError) throw deleteError;
+
+  return { success: true, restored_quantity: purchase.quantity };
+}
+
 module.exports = {
   getUserByEmail,
   getUserById,
@@ -407,4 +447,5 @@ module.exports = {
   getAllOrders,
   markOrderFulfilled,
   markMultipleOrdersFulfilled,
+  undoPurchase,
 };

@@ -111,4 +111,5 @@ export function getTeamPurchases(team_id: number): Promise<Purchase[]>;
 export function getAllOrders(): Promise<Order[]>;
 export function markOrderFulfilled(purchaseId: number, fulfilled?: boolean): Promise<void>;
 export function markMultipleOrdersFulfilled(purchaseIds: number[], fulfilled?: boolean): Promise<void>;
+export function undoPurchase(purchaseId: number): Promise<{ success: boolean; restored_quantity: number }>;
 
