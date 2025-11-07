@@ -11,3 +11,5 @@ ADD COLUMN IF NOT EXISTS fulfilled_at TIMESTAMP WITH TIME ZONE;
 CREATE INDEX IF NOT EXISTS idx_team_purchases_fulfilled ON team_purchases(fulfilled);
 CREATE INDEX IF NOT EXISTS idx_team_purchases_team_id_fulfilled ON team_purchases(team_id, fulfilled);
 
+
+
