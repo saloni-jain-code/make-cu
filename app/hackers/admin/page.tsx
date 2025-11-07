@@ -95,6 +95,12 @@ export default function QRAdminPage() {
             >
               Hardware Orders
             </Link>
+            <Link 
+              href="/hackers/admin/teams"
+              className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 rounded-lg font-medium hover:from-orange-600 hover:to-orange-700 transition-all"
+            >
+              Manage Teams
+            </Link>
           </div>
         </div>
       </nav>
@@ -137,7 +143,7 @@ export default function QRAdminPage() {
         )}
 
         {/* Quick Links */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Link 
             href="/hackers/admin/users"
             className="bg-blue-500/20 backdrop-blur-md border border-blue-500/30 rounded-lg p-6 hover:bg-blue-500/30 transition-all"
@@ -160,6 +166,14 @@ export default function QRAdminPage() {
           >
             <h3 className="text-purple-200 text-lg font-semibold mb-2">📦 Hardware Orders</h3>
             <p className="text-white/60 text-sm">Manage and fulfill team hardware orders</p>
+          </Link>
+
+          <Link 
+            href="/hackers/admin/teams"
+            className="bg-orange-500/20 backdrop-blur-md border border-orange-500/30 rounded-lg p-6 hover:bg-orange-500/30 transition-all"
+          >
+            <h3 className="text-orange-200 text-lg font-semibold mb-2">🏆 Manage Teams</h3>
+            <p className="text-white/60 text-sm">Approve and manage team registrations</p>
           </Link>
         </div>
 

@@ -23,6 +23,7 @@ interface Team {
   id: number;
   name: string;
   created_at: string;
+  approved: boolean;
 }
 
 interface TeamMember {
@@ -301,7 +302,18 @@ export default function QRDashboardPage() {
                 <div className="bg-white/5 border border-white/10 rounded-lg p-4">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h4 className="text-xl font-bold text-white">{team.name}</h4>
+                      <div className="flex items-center gap-2">
+                        <h4 className="text-xl font-bold text-white">{team.name}</h4>
+                        {team.approved ? (
+                          <span className="bg-green-500/20 text-green-200 px-3 py-1 rounded-full text-xs font-medium">
+                            ✓ Approved
+                          </span>
+                        ) : (
+                          <span className="bg-yellow-500/20 text-yellow-200 px-3 py-1 rounded-full text-xs font-medium">
+                            ⏳ Pending Approval
+                          </span>
+                        )}
+                      </div>
                       <p className="text-white/60 text-sm">Created {new Date(team.created_at).toLocaleDateString()}</p>
                     </div>
                     <button
@@ -311,6 +323,15 @@ export default function QRDashboardPage() {
                       Leave Team
                     </button>
                   </div>
+
+                  {!team.approved && (
+                    <div className="mb-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4">
+                      <p className="text-yellow-200 text-sm">
+                        <strong>⏳ Awaiting Admin Approval</strong><br />
+                        Your team is pending approval from an administrator. You will be able to access the hardware shop once your team is approved.
+                      </p>
+                    </div>
+                  )}
 
                   {budget && (
                     <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-4">
@@ -336,12 +357,21 @@ export default function QRDashboardPage() {
                     </div>
                   </div>
 
-                  <Link
-                    href="/hackers/shop"
-                    className="inline-block bg-white/20 backdrop-blur-md border border-white/30 text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/30 hover:border-white/40 hover:scale-105 hover:shadow-lg hover:shadow-white/20 transition-all duration-200"
-                  >
-                    Go to Hardware Shop
-                  </Link>
+                  {team.approved ? (
+                    <Link
+                      href="/hackers/shop"
+                      className="inline-block bg-white/20 backdrop-blur-md border border-white/30 text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/30 hover:border-white/40 hover:scale-105 hover:shadow-lg hover:shadow-white/20 transition-all duration-200"
+                    >
+                      Go to Hardware Shop
+                    </Link>
+                  ) : (
+                    <button
+                      disabled
+                      className="inline-block bg-white/10 border border-white/20 text-white/50 px-6 py-3 rounded-lg font-semibold cursor-not-allowed"
+                    >
+                      Hardware Shop (Awaiting Approval)
+                    </button>
+                  )}
 
                   {purchases.length > 0 && (
                     <div className="mt-4">

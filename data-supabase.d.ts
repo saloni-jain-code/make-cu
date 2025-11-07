@@ -14,12 +14,18 @@ export interface Team {
   name: string;
   password_hash: string;
   created_at: string;
+  approved: boolean;
+}
+
+export interface TeamWithMembers extends Team {
+  member_count: number;
 }
 
 export interface TeamMembership {
   team_id: number;
   name: string;
   created_at: string;
+  approved: boolean;
   joined_at: string;
 }
 
@@ -112,4 +118,8 @@ export function getAllOrders(): Promise<Order[]>;
 export function markOrderFulfilled(purchaseId: number, fulfilled?: boolean): Promise<void>;
 export function markMultipleOrdersFulfilled(purchaseIds: number[], fulfilled?: boolean): Promise<void>;
 export function undoPurchase(purchaseId: number): Promise<{ success: boolean; restored_quantity: number }>;
+
+// Admin - Teams functions
+export function getAllTeams(): Promise<TeamWithMembers[]>;
+export function approveTeam(teamId: number, approved?: boolean): Promise<void>;
 

@@ -26,6 +26,14 @@ export async function GET(req: NextRequest) {
       );
     }
 
+    // Check if team is approved
+    if (!teamMembership.approved) {
+      return NextResponse.json(
+        { error: "Your team is pending admin approval. Please check back later." },
+        { status: 403 }
+      );
+    }
+
     const teamId = teamMembership.team_id;
 
     const items = await getHardwareItems();

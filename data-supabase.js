@@ -124,9 +124,10 @@ async function getUserStats() {
 // === TEAMS ===
 async function createTeam({ name, password_hash }) {
   // Expect password to already be hashed on server side
+  // Teams start as unapproved by default
   const { data, error } = await supabase
     .from('teams')
-    .insert([{ name, password_hash }])
+    .insert([{ name, password_hash, approved: false }])
     .select()
     .single();
   if (error) throw error;
@@ -178,7 +179,7 @@ async function removeTeamMember(user_id) {
 async function getUserTeam(user_id) {
   const { data, error } = await supabase
     .from('team_members')
-    .select('team_id, teams(name, created_at), joined_at')
+    .select('team_id, teams(name, created_at, approved), joined_at')
     .eq('user_id', user_id)
     .single();
   if (error && error.code !== 'PGRST116') throw error;
@@ -188,6 +189,7 @@ async function getUserTeam(user_id) {
     team_id,
     name: teams.name,
     created_at: teams.created_at,
+    approved: teams.approved !== undefined ? teams.approved : false,
     joined_at,
   }
 }
@@ -406,6 +408,50 @@ async function markMultipleOrdersFulfilled(purchaseIds, fulfilled = true) {
   if (error) throw error;
 }
 
+// === ADMIN - TEAMS ===
+async function getAllTeams() {
+  const { data, error } = await supabase
+    .from('teams')
+    .select(`
+      id,
+      name,
+      created_at,
+      approved
+    `)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('getAllTeams error:', error);
+    throw error;
+  }
+
+  // Get member count for each team
+  const teamsWithMembers = await Promise.all(
+    (data || []).map(async (team) => {
+      const { count } = await supabase
+        .from('team_members')
+        .select('*', { count: 'exact', head: true })
+        .eq('team_id', team.id);
+      
+      return {
+        ...team,
+        member_count: count || 0
+      };
+    })
+  );
+
+  return teamsWithMembers;
+}
+
+async function approveTeam(teamId, approved = true) {
+  const { error } = await supabase
+    .from('teams')
+    .update({ approved })
+    .eq('id', teamId);
+
+  if (error) throw error;
+}
+
 async function undoPurchase(purchaseId) {
   // Get the purchase details first
   const { data: purchase, error: fetchError } = await supabase
@@ -472,4 +518,6 @@ module.exports = {
   markOrderFulfilled,
   markMultipleOrdersFulfilled,
   undoPurchase,
+  getAllTeams,
+  approveTeam,
 };
