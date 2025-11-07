@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUserByUuid } from "@/data-supabase";
+import { getSavesForViewer, getUserByUuid } from "@/data-supabase";
+import { getSessionUser } from '@/lib/auth';
 
 export async function GET(
   req: NextRequest,
@@ -17,7 +18,15 @@ export async function GET(
       );
     }
 
-    return NextResponse.json({ profile });
+    const user = await getSessionUser(); 
+    const saves = await getSavesForViewer(profile.id);
+    const hasSaved = saves.some(
+      (save: any) => save.viewed_user_id === profile.id
+    );
+
+    const canSave = user && user.uuid !== uuid && !hasSaved;
+
+    return NextResponse.json({ profile, canSave, user });
   } catch (error) {
     console.error("Profile view error:", error);
     return NextResponse.json(

@@ -186,7 +186,7 @@ export default function QRProfilePage() {
                     Login to save this profile
                   </Link>
                 ) : (
-                  <p className="text-white/60">This is your profile.</p>
+                  <p className="text-white/60"></p>
                 )}
               </div>
             </div>
