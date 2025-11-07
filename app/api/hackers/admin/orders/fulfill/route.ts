@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser, requireAdmin } from "@/lib/auth";
 import { markOrderFulfilled, markMultipleOrdersFulfilled } from "@/data-supabase";
 
+export const dynamic = 'force-dynamic';
 export async function POST(req: NextRequest) {
   try {
     // Get the logged-in user from cookies

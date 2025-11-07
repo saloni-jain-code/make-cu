@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { getSessionUser, requireAdmin } from "@/lib/auth";
 import { getAllOrders } from "@/data-supabase";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     // Get the logged-in user from cookies

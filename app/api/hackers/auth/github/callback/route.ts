@@ -61,7 +61,7 @@ export async function GET(req: NextRequest) {
   const res = NextResponse.redirect(`${FRONTEND_URL}${state}`);
   
   if (finalUser) {
-    res.cookies.set("user_id", finalUser.id, {
+    res.cookies.set("user_id", finalUser.id.toString(), {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
