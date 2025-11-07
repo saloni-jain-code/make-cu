@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser, requireAdmin } from "@/lib/auth";
-import { markOrderFulfilled, markMultipleOrdersFulfilled } from "../../../../../../data-supabase";
+import { markOrderFulfilled, markMultipleOrdersFulfilled } from "@/data-supabase";
 
 export async function POST(req: NextRequest) {
   try {

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSessionUser, requireAdmin } from "@/lib/auth";
-import { getAllOrders } from "../../../../../data-supabase";
+import { getAllOrders } from "@/data-supabase";
 
 export async function GET() {
   try {
