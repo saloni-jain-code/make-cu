@@ -89,6 +89,12 @@ export default function QRAdminPage() {
             >
               All Saves
             </Link>
+            <Link 
+              href="/hackers/admin/orders"
+              className="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-600 hover:to-purple-700 transition-all"
+            >
+              Hardware Orders
+            </Link>
           </div>
         </div>
       </nav>
@@ -129,6 +135,33 @@ export default function QRAdminPage() {
             </div>
           </div>
         )}
+
+        {/* Quick Links */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <Link 
+            href="/hackers/admin/users"
+            className="bg-blue-500/20 backdrop-blur-md border border-blue-500/30 rounded-lg p-6 hover:bg-blue-500/30 transition-all"
+          >
+            <h3 className="text-blue-200 text-lg font-semibold mb-2">👥 Manage Users</h3>
+            <p className="text-white/60 text-sm">View and manage all registered users</p>
+          </Link>
+          
+          <Link 
+            href="/hackers/admin/saves"
+            className="bg-green-500/20 backdrop-blur-md border border-green-500/30 rounded-lg p-6 hover:bg-green-500/30 transition-all"
+          >
+            <h3 className="text-green-200 text-lg font-semibold mb-2">💾 Profile Saves</h3>
+            <p className="text-white/60 text-sm">View all profile save interactions</p>
+          </Link>
+          
+          <Link 
+            href="/hackers/admin/orders"
+            className="bg-purple-500/20 backdrop-blur-md border border-purple-500/30 rounded-lg p-6 hover:bg-purple-500/30 transition-all"
+          >
+            <h3 className="text-purple-200 text-lg font-semibold mb-2">📦 Hardware Orders</h3>
+            <p className="text-white/60 text-sm">Manage and fulfill team hardware orders</p>
+          </Link>
+        </div>
 
         {/* Recent Activity */}
         <div className="grid lg:grid-cols-2 gap-8">

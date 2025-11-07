@@ -309,6 +309,65 @@ async function getTeamPurchases(team_id) {
   return formatted || [];
 }
 
+// === ADMIN - ORDERS ===
+async function getAllOrders() {
+  const { data, error } = await supabase
+    .from('team_purchases')
+    .select(`
+      *,
+      hardware_items!inner(name, description),
+      teams!inner(name)
+    `)
+    .order('purchased_at', { ascending: false });
+
+  if (error) throw error;
+
+  // Flatten nested objects
+  const formatted = (data || []).map(row => ({
+    id: row.id,
+    team_id: row.team_id,
+    team_name: row.teams.name,
+    item_id: row.item_id,
+    item_name: row.hardware_items.name,
+    item_description: row.hardware_items.description,
+    quantity: row.quantity,
+    total_cost: row.total_cost,
+    purchased_at: row.purchased_at,
+    fulfilled: row.fulfilled || false,
+    fulfilled_at: row.fulfilled_at || null,
+  }));
+
+  return formatted;
+}
+
+async function markOrderFulfilled(purchaseId, fulfilled = true) {
+  const updates = {
+    fulfilled,
+    fulfilled_at: fulfilled ? new Date().toISOString() : null,
+  };
+
+  const { error } = await supabase
+    .from('team_purchases')
+    .update(updates)
+    .eq('id', purchaseId);
+
+  if (error) throw error;
+}
+
+async function markMultipleOrdersFulfilled(purchaseIds, fulfilled = true) {
+  const updates = {
+    fulfilled,
+    fulfilled_at: fulfilled ? new Date().toISOString() : null,
+  };
+
+  const { error } = await supabase
+    .from('team_purchases')
+    .update(updates)
+    .in('id', purchaseIds);
+
+  if (error) throw error;
+}
+
 module.exports = {
   getUserByEmail,
   getUserById,
@@ -331,4 +390,7 @@ module.exports = {
   getHardwareItems,
   purchaseHardware,
   getTeamPurchases,
+  getAllOrders,
+  markOrderFulfilled,
+  markMultipleOrdersFulfilled,
 };
