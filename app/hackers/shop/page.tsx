@@ -53,12 +53,10 @@ export default function HardwareShopPage() {
           setBudget(data.budget);
           setTeam(data.team);
         } else {
-          // Redirect to dashboard if not authorized (sponsors or no team)
           window.location.href = '/hackers/dashboard';
         }
       } catch (error) {
         console.error('Failed to fetch shop data:', error);
-        window.location.href = '/hackers/dashboard';
       } finally {
         setLoading(false);
       }
