@@ -65,6 +65,7 @@ const NavBar: React.FC = () => {
     { id: 'schedule', label: 'Schedule', type: 'link' },
     { id: 'hardware', label: 'Hardware', type: 'link' },
     { id: 'map', label: 'Map', type: 'link' },
+    { id: 'hackers', label: 'Hacker Portal', type: 'link' },
     { id: 'team', label: "Contact Us", type: 'scroll' },
   ];
 

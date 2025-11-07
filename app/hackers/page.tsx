@@ -38,6 +38,18 @@ export default function QRHomePage() {
     }
   };
 
+
+  // <button
+  //   key="dashboard"
+  //   onClick={() => handleNavClick(item.id, item.type)}
+  //   className={`px-3 py-2 rounded-md text-lg font-medium transition-all duration-200 hover:bg-white/20 hover:text-white ${
+  //     activeSection === item.id
+  //       ? "text-[white] bg-white/20"
+  //       : "text-gray-300 hover:text-white"
+  //   }`}
+  //   >
+  //   {item.label}
+  // </button>
   return (
     <main className="min-h-screen">
       {/* Navigation */}
@@ -49,18 +61,18 @@ export default function QRHomePage() {
           <div className="flex gap-4">
             {user ? (
               <>
-                <Link href="/hackers/dashboard" className="text-white hover:text-blue-300 transition-colors">
+                <Link href="/hackers/dashboard" className="text-white px-3 py-2 rounded-md text-lg font-medium transition-all duration-200 hover:bg-white/20 hover:text-white">
                   Dashboard
                 </Link>
                 <button 
                   onClick={handleLogout}
-                  className="text-white hover:text-blue-300 transition-colors"
+                  className="text-white px-3 py-2 rounded-md text-lg font-medium transition-all duration-200 hover:bg-white/20 hover:text-white"
                 >
                   Logout
                 </button>
               </>
             ) : (
-              <Link href="/hackers/login" className="text-white bg-white/20 border border-white/30 px-4 py-2 rounded-lg hover:bg-white/30 hover:border-white/40 transition-all">
+              <Link href="/hackers/login" className="text-white text-lg font-medium bg-white/10 border border-white/30 px-4 py-2 rounded-md hover:bg-white/20 hover:border-white/40 transition-all">
                 Login
               </Link>
             )}
@@ -90,7 +102,7 @@ export default function QRHomePage() {
               <>
                 <Link 
                   href="/hackers/login"
-                  className="bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/30 hover:scale-105 transition-all duration-200"
+                  className="bg-white/20 text-lg font-medium backdrop-blur-md border border-white/30 text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/30 hover:scale-105 transition-all duration-200"
                 >
                   Login
                 </Link>

@@ -204,9 +204,15 @@ export default function QRDashboardPage() {
                 🛠️ Admin Panel
               </Link>
             )}
+            <Link
+              href="/"
+              className='text-white text-lg font-medium bg-white/10 border border-white/30 px-4 py-2 rounded-md hover:bg-white/20 hover:border-white/40 transition-all'
+            >
+              Back to MakeCU
+            </Link>
             <button 
               onClick={handleLogout}
-              className="text-white bg-white/20 border border-white/30 px-4 py-2 rounded-lg hover:bg-white/30 hover:border-white/40 transition-all"
+              className="text-white text-lg font-medium bg-white/10 border border-white/30 px-4 py-2 rounded-md hover:bg-white/20 hover:border-white/40 transition-all"
             >
               Logout
             </button>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckSquare, Clock, Users, Wrench, Utensils, Trophy, Coffee, Gamepad2, UserPlus, Megaphone, Zap, Building2, Cpu, Moon, Code, GitBranch, Sparkles, Rocket, Pickaxe, Github, Bot, } from 'lucide-react';
+import NavBar from '../components/NavBar';
 
 const saturdayEvents: ScheduleEventProps[] = [
   {
@@ -216,6 +217,7 @@ const ScheduleEvent: React.FC<ScheduleEventProps> = ({
   export default function SchedulePage() {
     return (
       <main className="px-6 py-20 min-h-screen">
+        <NavBar />
         <div className="max-w-4xl mx-auto">
           <header className="text-center mb-12">
             <h1 className="font-mono text-3xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-8 text-white text-center py-4">

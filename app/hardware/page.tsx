@@ -1,6 +1,7 @@
 "use client"
 import React from 'react';
 import { Cpu, Zap, Cog, ExternalLink } from 'lucide-react';
+import NavBar from '../components/NavBar';
 
 interface HardwareItem {
   id: string;
@@ -142,6 +143,7 @@ const Hardware: React.FC = () => {
 
   return (
     <section className="px-6 py-20" id="hardware">
+      <NavBar />
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="font-mono text-3xl sm:text-5xl md:text-6xl font-bold mb-6 sm:mb-8 text-white text-center py-4">
