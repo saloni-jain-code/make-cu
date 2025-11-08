@@ -346,7 +346,7 @@ export default function QRDashboardPage() {
                         <p className="text-white/80">Total Budget: <span className="text-white font-bold">${budget.maxBudget}</span></p>
                         <p className="text-white/80">Spent: <span className="text-red-300 font-bold">${budget.totalSpent}</span></p>
                         <p className="text-white/80">Remaining: <span className="text-green-300 font-bold">${budget.remaining}</span></p>
-                        <p className="text-white/60 text-xs mt-2">Budget formula: $1500 × min(members, 4) = $1500 × {Math.min(budget.memberCount, 4)}</p>
+                        <p className="text-white/60 text-xs mt-2">Budget formula: $2000 × min(members, 4) = $2000 × {Math.min(budget.memberCount, 4)}</p>
                       </div>
                     </div>
                   )}

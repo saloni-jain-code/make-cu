@@ -239,7 +239,7 @@ async function getTeamBudget(team_id) {
 
   const memberCount = members.length;
   const totalSpent = purchases.reduce((sum, p) => sum + (p.total_cost || 0), 0);
-  const maxBudget = 1500 * Math.min(memberCount, 4);
+  const maxBudget = 2000 * Math.min(memberCount, 4);
   const remaining = maxBudget - totalSpent;
 
   return { maxBudget, totalSpent, remaining, memberCount };
