@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 
 export default function Countdown() {
-  const target = new Date(2025, 10, 8, 9, 0).getTime(); // Hackathon start
+  const target = new Date(2025, 10, 9, 12, 0).getTime(); // Hackathon start
 
   const [timeLeft, setTimeLeft] = useState(getTimeDiff());
 
@@ -28,6 +28,9 @@ export default function Countdown() {
 
   return (
     <section className="text-white px-4 sm:px-6 pb-6 text-center">
+      <h3 className="text-1xl sm:text-2xl md:text-3xl font-mono font-bold mb-6 sm:mb-8">
+        Hacking Deadline
+      </h3>
       <div className="flex flex-wrap justify-center gap-3 sm:gap-6 md:gap-10">
         {[
           { label: 'Days', value: timeLeft.days },
