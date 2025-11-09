@@ -342,7 +342,7 @@ async function getAllOrders() {
       .from('team_purchases')
       .select(`
         *,
-        hardware_items(name, cost, category),
+        hardware_items(name, cost, category, source),
         teams(name)
       `)
       .order('purchased_at', { ascending: false });
@@ -365,6 +365,7 @@ async function getAllOrders() {
       item_id: row.item_id,
       item_name: row.hardware_items?.name || 'Unknown Item',
       item_description: row.hardware_items?.category,
+      source: row.hardware_items?.source || null,
       quantity: row.quantity,
       total_cost: row.total_cost,
       purchased_at: row.purchased_at,
