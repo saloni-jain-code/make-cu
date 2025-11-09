@@ -63,6 +63,7 @@ export interface Order {
   quantity: number;
   total_cost: number;
   purchased_at: string;
+  part_source: string;
   fulfilled: boolean;
   fulfilled_at: string | null;
 }

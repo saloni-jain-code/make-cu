@@ -15,6 +15,7 @@ interface Order {
   purchased_at: string;
   fulfilled: boolean;
   fulfilled_at: string | null;
+  part_source: string;
 }
 
 export default function AdminOrdersPage() {
@@ -297,6 +298,7 @@ export default function AdminOrdersPage() {
                     <th className="text-left text-white/80 p-4">Order ID</th>
                     <th className="text-left text-white/80 p-4">Team</th>
                     <th className="text-left text-white/80 p-4">Item</th>
+                    <th className="text-left text-white/80 p-4">Source</th>
                     <th className="text-left text-white/80 p-4">Qty</th>
                     <th className="text-left text-white/80 p-4">Cost</th>
                     <th className="text-left text-white/80 p-4">Ordered</th>
@@ -320,6 +322,15 @@ export default function AdminOrdersPage() {
                       <td className="p-4 text-white/90">
                         <div className="font-medium">{order.item_name}</div>
                         <div className="text-xs text-white/60">{order.item_description}</div>
+                      </td>
+                      <td className="p-4">
+                        <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                          order.part_source === 'shop' 
+                            ? 'bg-blue-500/20 text-blue-200'
+                            : 'bg-purple-500/20 text-purple-200'
+                        }`}>
+                          {order.part_source || 'shop'}
+                        </span>
                       </td>
                       <td className="p-4 text-white">{order.quantity}</td>
                       <td className="p-4 text-white">${order.total_cost}</td>

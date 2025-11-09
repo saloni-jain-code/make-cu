@@ -83,7 +83,7 @@ export default function Tracks() {
             </a>, shipped directly to their chosen location. (Maximum 3 Sets)
             </li>
             <li>
-              <strong>Team Size:</strong> Up to 3 members per team.
+              <strong>Team Size:</strong> Up to 4 members per team.
             </li>
             <li>
               <strong>Hardware Use:</strong> Projects must use ROBOTIS hardware, but you may combine with other platforms/tools.

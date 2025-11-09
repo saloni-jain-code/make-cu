@@ -368,6 +368,7 @@ async function getAllOrders() {
       quantity: row.quantity,
       total_cost: row.total_cost,
       purchased_at: row.purchased_at,
+      part_source: row.source || 'shop',
       // Handle case where fulfilled columns might not exist yet
       fulfilled: row.fulfilled !== undefined ? row.fulfilled : false,
       fulfilled_at: row.fulfilled_at !== undefined ? row.fulfilled_at : null,
